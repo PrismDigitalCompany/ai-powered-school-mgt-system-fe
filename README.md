@@ -1,3 +1,4 @@
+
 # SMS — School Management System (Frontend)
 
 Frontend scaffold for the School Management System (SMS), built for the
@@ -402,3 +403,6 @@ Before approving a PR that touches UI:
 ---
 
 *Questions about this system, or need a new token added? Ping whoever owns `src/index.css` before introducing a new color — that file is the single source of truth for the whole product's palette.*
+=======
+# ai-powered-school-mgt-system-fe
+AI-Powered School Management System Frontend.
