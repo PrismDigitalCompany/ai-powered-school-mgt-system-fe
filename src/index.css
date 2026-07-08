@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@theme {
+  /* Base color palette */
+  --sidebar-ink-900: #0B1849;
+  --sidebar-top-900: #E4B028;
+  --sidebar-ink-text: #F8F9FC;
+  --header-ink-900: #F0F5F9;
+  --navbar-ink-900: #FAF2F2;
+  --card-ink-900: #F1F6F9;
+  --dashboard-ink-900: #F1F6F9;
+  --text-ink-white-200: #F8F9FC;
+  --text-ink-body-900: #101828;
+  --spinner-ink-brass-500: #4274D9;
+  --footer-ink-900: #29668B;
+  --button-ink-900: #4274D9;
+  --success-ink-900: #4BC87F;
+  --error-ink-500: #BE1A1A;
+  --primary-ink-900: #3874FF;
+  --warning-ink-900: #FFBF00;
+  --background-ink-400: #EAECF0;
+  --border-line-ink-300: #D0D5DD;
+  --surface-muted-ink-100: #F5F7F8;
+
+  /* --- Semantic tokens — this is what components should use --- */
+  --color-sidebar: var(--sidebar-ink-900);
+  --color-sidebar-top: var(--sidebar-top-900);
+  --color-sidebar-text: var(--sidebar-ink-text);
+  --color-header: var(--header-ink-900);
+  --color-navbar: var(--navbar-ink-900);
+  --color-card: var(--card-ink-900);
+  --color-dashboard: var(--dashboard-ink-900);
+  --color-text: var(--text-ink-white-200);
+  --color-text-body: var(--text-ink-body-900);
+  --color-spinner: var(--spinner-ink-brass-500);
+  --color-footer: var(--footer-ink-900);
+  --color-button: var(--button-ink-900);
+  --color-success: var(--success-ink-900);
+  --color-error: var(--error-ink-500);
+  --color-primary: var(--primary-ink-900);
+  --color-warning: var(--warning-ink-900);
+  --color-background: var(--background-ink-400);
+  --color-border-line: var(--border-line-ink-300);
+  --color-surface-muted: var(--surface-muted-ink-100);
+
+  --font-display: "Source Serif 4", Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+html, body {
+  background-color: var(--color-background);
+  font-family: var(--font-sans);
+  color: var(--color-text-body);
+}
+
+.font-display { font-family: var(--font-display); }
+.font-mono { font-family: var(--font-mono); }
+
+/* thin registrar-style scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background-color: var(--color-border-line); border-radius: 8px; }
+
+::selection {
+  background-color: var(--color-warning);
+  color: var(--color-text-body);
+}
+
+/* Ledger rule — a hairline double-rule divider used across the app */
+.ledger-rule {
+  border-top: 1px solid var(--color-sidebar);
+  border-bottom: 1px solid var(--color-sidebar);
+  height: 3px;
+  opacity: 0.15;
+}
