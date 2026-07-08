@@ -69,9 +69,9 @@ const App = () => {
           <Route
             path="/admin"
             element={
-              <ProtectedRoutes role="admin">
+              // <ProtectedRoutes role="admin">
                 <DashboardLayout />
-              </ProtectedRoutes>
+              // </ProtectedRoutes>
             }
           >
             <Route index element={<AdminDashboard />} />
@@ -100,9 +100,9 @@ const App = () => {
           <Route
             path="/teacher"
             element={
-              <ProtectedRoutes role="teacher">
+              // <ProtectedRoutes role="teacher">
                 <DashboardLayout />
-              </ProtectedRoutes>
+              // </ProtectedRoutes>
             }
           >
             <Route index element={<TeacherDashboard />} />
@@ -118,9 +118,9 @@ const App = () => {
           <Route
             path="/student"
             element={
-              <ProtectedRoutes role="student">
+              // <ProtectedRoutes role="student">
                 <DashboardLayout />
-              </ProtectedRoutes>
+              // </ProtectedRoutes>
             }
           >
             <Route index element={<StudentDashboard />} />
@@ -137,9 +137,9 @@ const App = () => {
           <Route
             path="/parent"
             element={
-              <ProtectedRoutes role="parent">
+              // <ProtectedRoutes role="parent">
                 <DashboardLayout />
-              </ProtectedRoutes>
+              // </ProtectedRoutes>
             }
           >
             <Route index element={<ParentDashboard />} />
