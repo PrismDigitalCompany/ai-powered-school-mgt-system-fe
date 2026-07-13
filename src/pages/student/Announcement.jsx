@@ -2,7 +2,7 @@ import React from 'react'
 
 const Announcement = () => {
   return (
-    <div>Announcement</div>
+    <div>Announcement for student page</div>
   )
 }
 

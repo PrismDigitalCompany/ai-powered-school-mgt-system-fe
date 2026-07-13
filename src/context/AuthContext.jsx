@@ -6,7 +6,7 @@ const AuthContext = createContext(null);
 const STORAGE_KEY = 'sms.session';
 
 
-// (e.g. POST /api/auth/login) once the endpoint is wired up.
+// Demo for testing
 const DEMO_USERS = {
   'admin@sms.edu': { password: 'admin123', role: 'admin', name: 'Adaeze Nwosu', title: 'Registrar' },
   'teacher@sms.edu': { password: 'teacher123', role: 'teacher', name: 'Mr. Bayo Adeyemi', title: 'Lecturer, Computer Science' },
@@ -73,7 +73,7 @@ export function useAuth() {
 
 
 
-// uncommented code below is an alternative implementation of the AuthContext, which has been commented out. The current implementation above is more streamlined and uses a demo user directory for authentication. The commented-out code includes additional features like updating user data and checking authentication status, but it is not currently in use.
+// uncommented the code below is an alternative implementation of the AuthContext, which has been commented out. The current implementation above is more streamlined and uses as a demo user directory for authentication. The commented-out code includes additional features like updating user data and checking authentication status, but it is not currently in use.
 // import{ useEffect, useState, createContext, useContext} from 'react'
 
 // const AuthContext = createContext()
