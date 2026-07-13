@@ -18,8 +18,9 @@ import StaffAttendance from './pages/admin/Attendance';
 import Settings from './pages/admin/Setting';
 import Hostel from './pages/admin/Hostel';
 import PayRoll from './pages/admin/StaffPayRoll';
-import AdminCBT from './pages/admin/CBT';
+import AdminCBT from './pages/admin/AddCbtExamPage';
 import Communication from './pages/admin/Communications';
+import EditCbtExam from './pages/admin/EditCbtExam';
 import Analytics from './pages/admin/Analytics';
 import Allinsight from './pages/admin/Allnsights';
 import EditAdmission from './pages/admin/EditStudentAdmission';
@@ -42,7 +43,7 @@ import Assignment from './pages/teacher/Assignment';
 // Student portal pages
 import StudentDashboard from './pages/student/StudentDashboard';
 import Announcements from './pages/student/Announcement';
-import StudentCBT from './pages/student/CBT';
+import StudentExamPage from './pages/student/ExamPage';
 import StudentLibrary from './pages/student/Library';
 import Results from './pages/student/Results';
 import StudentSchoolFees from './pages/student/StudentSchoolFees';
@@ -85,6 +86,7 @@ const App = () => {
             <Route path="add-programme" element={<AddProgramme />} />
             <Route path="edit-programme/:id" element={<EditProgramme />} />
             <Route path="cbt" element={<AdminCBT />} />
+            <Route path="edit-exam/:id" element={<EditCbtExam/>}/>
             <Route path="hostel" element={<Hostel />} />
             <Route path="pay-roll" element={<PayRoll />} />
             <Route path="academics" element={<Academics />} />
@@ -125,7 +127,7 @@ const App = () => {
           >
             <Route index element={<StudentDashboard />} />
             <Route path="announcements" element={<Announcements />} />
-            <Route path="cbt" element={<StudentCBT />} />
+            <Route path="cbtExam" element={<StudentExamPage />} />
             <Route path="library" element={<StudentLibrary />} />
             <Route path="results" element={<Results />} />
             <Route path="fees" element={<StudentSchoolFees />} />
