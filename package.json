@@ -1,0 +1,49 @@
+{
+  "name": "prism-school-management-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "@tanstack/react-query": "^5.101.4",
+    "axios": "^1.18.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.5.5",
+    "@radix-ui/react-slot": "^1.1.0",
+    "framer-motion": "^12.42.2",
+    "lucide-react": "^1.26.0",
+    "react-hook-form": "^7.83.0",
+    "@hookform/resolvers": "^3.9.1",
+    "zod": "^3.24.1",
+    "date-fns": "^4.1.0",
+    "react-hot-toast": "^2.6.0",
+    "react-router-dom": "^7.18.1",
+    "recharts": "^3.10.0",
+    "tailwindcss": "^4.3.3",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "@tailwindcss/vite": "^4.3.3",
+    "vite": "^8.1.1",
+    "eslint": "^9.17.0",
+    "@eslint/js": "^9.17.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2",
+    "@faker-js/faker": "^10.5.0"
+  }
+}
