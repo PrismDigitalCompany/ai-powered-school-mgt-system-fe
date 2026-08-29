@@ -15,7 +15,7 @@ const AdminInformationSection = ({ register, errors }) => (
         required
         err={errors.adminFirstName?.message}
       >
-        <Input placeholder="Ada" {...register("adminFirstName")} />
+        <Input placeholder=" First name" {...register("adminFirstName")} />
       </Field>
 
       <Field
@@ -24,7 +24,7 @@ const AdminInformationSection = ({ register, errors }) => (
         required
         err={errors.adminLastName?.message}
       >
-        <Input placeholder="Okafor" {...register("adminLastName")} />
+        <Input placeholder="Last name" {...register("adminLastName")} />
       </Field>
 
       <Field
@@ -64,7 +64,7 @@ const AdminInformationSection = ({ register, errors }) => (
         <Input
           type="password"
           autoComplete="new-password"
-          placeholder="••••••••"
+          placeholder="***********"
           {...register("password")}
         />
       </Field>

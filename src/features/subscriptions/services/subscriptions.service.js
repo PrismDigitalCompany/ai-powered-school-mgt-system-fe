@@ -1,5 +1,5 @@
 import { apiClient } from "../../../services/apiClient";
-import { ROUTES } from "../../../constants/route";
+
 const BASE_URL = "/subscriptions";
 
 function normalizeSubscriptionPlansResponse(raw) {
@@ -29,17 +29,12 @@ export const subscriptionsService = {
   },
 
   getSubscriptionPlan: async (planId) => {
-    const response = await apiClient.get(
-      `${BASE_URL}${ROUTES.SUBSCRIBE.PLANS}/${planId}`,
-    );
+    const response = await apiClient.get(`${BASE_URL}/plans/${planId}`);
     return normalizeSubscriptionPlanResponse(response.data);
   },
 
   createSubscriptionPlan: async (payload) => {
-    const response = await apiClient.post(
-      `${BASE_URL}${ROUTES.SUBSCRIBE.PLANS}`,
-      payload,
-    );
+    const response = await apiClient.post(`${BASE_URL}/plans`, payload);
     return normalizeCreateSubscriptionPlanResponse(response.data);
   },
 
@@ -52,9 +47,7 @@ export const subscriptionsService = {
   },
 
   deleteSubscriptionPlan: async (planId) => {
-    const response = await apiClient.delete(
-      `${BASE_URL}${ROUTES.SUBSCRIBE.PLANS}/${planId}`,
-    );
+    const response = await apiClient.delete(`${BASE_URL}/plans/${planId}`);
     return normalizeDeleteSubscriptionPlanResponse(response.data);
   },
 };
