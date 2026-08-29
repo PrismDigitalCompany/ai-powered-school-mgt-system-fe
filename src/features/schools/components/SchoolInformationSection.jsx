@@ -8,12 +8,6 @@ const SCHOOL_CATEGORIES = ["Public", "Private", "Faith-based", "International"];
 
 const selectClassName = cn(NATIVE_SELECT_CLASSNAME, "w-full");
 
-/**
- * School Information section: name, code, type, category, email, phone.
- * Type/Category use plain native <select>s — same choice as
- * SchoolsFilters' status/plan dropdowns, since no Select primitive
- * exists yet and these are short, fixed option lists.
- */
 const SchoolInformationSection = ({ register, errors }) => (
   <div className="space-y-5">
     <h2 className="text-base font-semibold text-text">School Information</h2>

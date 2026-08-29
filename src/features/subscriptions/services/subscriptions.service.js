@@ -13,18 +13,18 @@ function normalizeSubscriptionPlanResponse(raw) {
 function normalizeCreateSubscriptionPlanResponse(raw) {
   return raw ?? null;
 }
+
 function normalizeUpdateSubscriptionPlanResponse(raw) {
   return raw ?? null;
 }
+
 function normalizeDeleteSubscriptionPlanResponse(raw) {
   return raw ?? null;
 }
 
 export const subscriptionsService = {
   getSubscriptionPlans: async () => {
-    const response = await apiClient.get(
-      `${BASE_URL}${ROUTES.SUBSCRIBE.PLANS}`,
-    );
+    const response = await apiClient.get(`${BASE_URL}/plans`);
     return normalizeSubscriptionPlansResponse(response.data);
   },
 

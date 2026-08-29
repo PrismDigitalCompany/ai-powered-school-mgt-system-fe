@@ -11,20 +11,6 @@ import SchoolLocationSection from "./SchoolLocationSection";
 import SchoolIdentitySection from "./SchoolIdentitySection";
 import { useUpdateSchool } from "../hooks/useUpdateSchool";
 
-/**
- * Reuses the exact same section components as CreateSchoolForm
- * (SchoolInformationSection/SchoolLocationSection/SchoolIdentitySection)
- * unmodified — the field set they render is identical, so there's
- * nothing edit-specific to change in them.
- *
- * `values` (not `defaultValues`) is used so the form re-populates
- * whenever `school` changes, without a manual useEffect + reset().
- *
- * `logo` always starts at null: the current school record has no
- * persisted logo field to preload — nothing has ever been saved for
- * one (see schools.service.js). Selecting a new file here works exactly
- * like Create School's; there's just nothing existing to show first.
- */
 const EditSchoolForm = ({ school }) => {
   const navigate = useNavigate();
   const updateSchoolMutation = useUpdateSchool();

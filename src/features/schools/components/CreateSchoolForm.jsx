@@ -15,12 +15,7 @@ import AdminInformationSection from "./AdminInformationSection";
 import SchoolIdentitySection from "./SchoolIdentitySection";
 import { useCreateSchool } from "../hooks/useCreateSchool";
 
-/**
- * Submits through useCreateSchool (React Query mutation → schools.service
- * → apiClient) — this component never touches Axios or a raw response
- * directly. API errors surface via the same FormErrorBanner every other
- * form in the app uses; validation stays entirely in the Zod schema.
- */
+
 const CreateSchoolForm = () => {
   const navigate = useNavigate();
   const createSchoolMutation = useCreateSchool();

@@ -100,11 +100,14 @@ export const ROUTES = Object.freeze({
   SCHOOLADMINPERMIT: Object.freeze({
     PERMISSION: "/permissions",
   }),
-  ACTIVITIES:Object.freeze({
+  ACTIVITIES: Object.freeze({
     ACTIVATE: "/activate",
     DEACTIVATE: "/deactivate",
-    ACTIVITY:"/activity"
-  })
+    ACTIVITY: "/activity",
+    SUSPEND: "/suspend",
+    SCHOOL_ADMIN: "/school-admin",
+    SUBSCRIBTION_PLAN: "/subscription-plan",
+  }),
 });
 
 export default ROUTES;

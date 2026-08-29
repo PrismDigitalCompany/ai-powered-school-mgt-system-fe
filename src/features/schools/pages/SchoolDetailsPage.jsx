@@ -8,8 +8,10 @@ import Btn from "../../../components/ui/Btn";
 import Icon from "../../../components/icons/Icon.jsx";
 import Badge from "../../../components/ui/Badge";
 import EmptyState from "../../../components/feedback/EmptyState";
+import Can from "../../../components/authorization/Can";
 import ConfirmationDialog from "../../../components/dialogs/ConfirmationDialog";
 import AssignSchoolAdminDialog from "../components/AssignSchoolAdminDialog";
+import AssignSubscriptionPlanDialog from "../components/AssignSubscriptionPlanDialog";
 import DashboardStatCard from "../../super-admin/components/dashboard/DashboardStatCard";
 import SchoolDetailField from "../components/SchoolDetailField";
 import { useSchool } from "../hooks/useSchool";
@@ -18,7 +20,19 @@ import { useDeactivateSchool } from "../hooks/useDeactivateSchool";
 import { useSuspendSchool } from "../hooks/useSuspendSchool";
 import { useAssignSchoolAdmin } from "../hooks/useAssignSchoolAdmin";
 import { useRemoveSchoolAdmin } from "../hooks/useRemoveSchoolAdmin";
+import { useAssignSubscriptionPlanToSchool } from "../hooks/useAssignSubscriptionPlanToSchool";
+import {
+  useSchoolSubscriptionAssignments,
+  setSchoolSubscriptionPlan,
+  resolveSchoolSubscriptionPlan,
+} from "../data/schoolSubscriptionAssignments";
+import {
+  useSubscriptionPlanSessionState,
+  getEffectiveSubscriptionPlans,
+} from "../../subscriptions/data/createdSubscriptionPlans";
+import { formatCurrency } from "../../../utils/formatCurrency";
 import { STATUS } from "../../../constants/status";
+import { PERMISSIONS } from "../../../constants/permission";
 import { ROUTES, buildPath } from "../../../constants/route";
 
 const SchoolDetailsPage = () => {
@@ -31,12 +45,17 @@ const SchoolDetailsPage = () => {
   const [isAssignPickerOpen, setIsAssignPickerOpen] = useState(false);
   const [adminToAssign, setAdminToAssign] = useState(null);
   const [isRemoveConfirmOpen, setIsRemoveConfirmOpen] = useState(false);
+  const [isPlanPickerOpen, setIsPlanPickerOpen] = useState(false);
+  const [planToAssign, setPlanToAssign] = useState(null);
 
   const activateSchoolMutation = useActivateSchool();
   const deactivateSchoolMutation = useDeactivateSchool();
   const suspendSchoolMutation = useSuspendSchool();
   const assignSchoolAdminMutation = useAssignSchoolAdmin();
   const removeSchoolAdminMutation = useRemoveSchoolAdmin();
+  const assignPlanMutation = useAssignSubscriptionPlanToSchool();
+  const schoolPlanAssignments = useSchoolSubscriptionAssignments();
+  const subscriptionSessionState = useSubscriptionPlanSessionState();
 
   if (!school) {
     return (
@@ -65,6 +84,14 @@ const SchoolDetailsPage = () => {
     assignedAdminOverride !== undefined
       ? assignedAdminOverride
       : school.schoolAdmin;
+  const effectivePlans = getEffectiveSubscriptionPlans(
+    subscriptionSessionState,
+  );
+  const currentPlan = resolveSchoolSubscriptionPlan(
+    school,
+    schoolPlanAssignments,
+    effectivePlans,
+  );
   const isLifecycleMutating =
     activateSchoolMutation.isPending ||
     deactivateSchoolMutation.isPending ||
@@ -86,6 +113,23 @@ const SchoolDetailsPage = () => {
             phone: adminToAssign.phone,
           });
           setAdminToAssign(null);
+        },
+      },
+    );
+  };
+
+  const handleSelectPlanToAssign = (plan) => {
+    setIsPlanPickerOpen(false);
+    setPlanToAssign(plan);
+  };
+
+  const handleConfirmPlanAssignment = () => {
+    assignPlanMutation.mutate(
+      { schoolId: school.id, planId: planToAssign.id },
+      {
+        onSuccess: () => {
+          setSchoolSubscriptionPlan(school.id, planToAssign.id);
+          setPlanToAssign(null);
         },
       },
     );
@@ -189,7 +233,7 @@ const SchoolDetailsPage = () => {
             ? "The school will become active and available according to the platform's active-state rules."
             : pendingAction === "deactivate"
               ? "The school will become inactive."
-              : "The school will be suspended. Suspension is a distinct platform status from deactivation — it directly changes the school's platform status, separately from the Active/Inactive state."
+              : "The school will be suspended. Suspension is a distinct platform status from deactivation — it directly changes the school's platform status."
         }
         confirmLabel={
           pendingAction === "activate"
@@ -237,6 +281,34 @@ const SchoolDetailsPage = () => {
         }
         confirmLabel="Remove"
         confirmVariant="danger"
+      />
+
+      <AssignSubscriptionPlanDialog
+        open={isPlanPickerOpen}
+        onClose={() => setIsPlanPickerOpen(false)}
+        onSelect={handleSelectPlanToAssign}
+        currentPlanId={currentPlan?.id}
+      />
+
+      <ConfirmationDialog
+        open={planToAssign !== null}
+        onClose={() => setPlanToAssign(null)}
+        onConfirm={handleConfirmPlanAssignment}
+        isLoading={assignPlanMutation.isPending}
+        title={
+          currentPlan
+            ? "Change Subscription Plan?"
+            : "Assign Subscription Plan?"
+        }
+        description={
+          planToAssign
+            ? `${school.name} will be assigned the ${planToAssign.name} plan${
+                currentPlan ? `, replacing ${currentPlan.name}` : ""
+              }. This only updates the school's plan assignment — it does not process a payment, activate a subscription, or change billing or renewal dates.`
+            : ""
+        }
+        confirmLabel={currentPlan ? "Change Plan" : "Assign Plan"}
+        confirmVariant="primary"
       />
 
       {/* Identity summary */}
@@ -325,9 +397,16 @@ const SchoolDetailsPage = () => {
 
       {/* Subscription & Status */}
       <Card className="p-6">
-        <h2 className="mb-4 text-base font-semibold text-text">
-          Subscription &amp; Status
-        </h2>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-base font-semibold text-text">
+            Subscription &amp; Status
+          </h2>
+          <Can permission={PERMISSIONS.SUBSCRIPTIONS_MANAGE}>
+            <Btn size="sm" onClick={() => setIsPlanPickerOpen(true)}>
+              {currentPlan ? "Change Plan" : "Assign Plan"}
+            </Btn>
+          </Can>
+        </div>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <SchoolDetailField
             label="Status"
@@ -335,7 +414,24 @@ const SchoolDetailsPage = () => {
           />
           <SchoolDetailField
             label="Subscription Plan"
-            value={school.subscriptionPlan}
+            value={
+              currentPlan ? (
+                <div className="flex items-center gap-2">
+                  <span>{currentPlan.name}</span>
+                  <Badge>{currentPlan.status}</Badge>
+                </div>
+              ) : (
+                "No Plan Assigned"
+              )
+            }
+          />
+          <SchoolDetailField
+            label="Monthly Price"
+            value={
+              currentPlan
+                ? formatCurrency(currentPlan.monthlyPrice, currentPlan.currency)
+                : undefined
+            }
           />
           <SchoolDetailField
             label="Subscription Status"

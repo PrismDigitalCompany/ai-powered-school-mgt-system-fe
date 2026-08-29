@@ -5,14 +5,7 @@ import Badge from "../../../components/ui/Badge";
 import EmptyState from "../../../components/feedback/EmptyState";
 import { useSchoolAdminOptions } from "../../school-admins/hooks/useSchoolAdmins";
 
-/**
- * Picker for selecting an EXISTING School Admin account to assign — not
- * a creation form. Reuses the same School Admin data useSchoolAdmins()
- * derives (see that file), not a second source. Selecting a row closes
- * this dialog and hands the chosen admin to the caller, which opens a
- * ConfirmationDialog next (kept separate rather than a multi-step modal,
- * composing two already-proven patterns instead of inventing a new one).
- */
+
 const AssignSchoolAdminDialog = ({ open, onClose, onSelect }) => {
   const [search, setSearch] = useState("");
   const options = useSchoolAdminOptions(search);

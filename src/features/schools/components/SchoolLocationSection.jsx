@@ -2,12 +2,6 @@ import Field from "../../../components/inputs/Field";
 import Input from "../../../components/inputs/Input";
 import Textarea from "../../../components/inputs/Textarea";
 
-/**
- * Location section: country, state/region, city, full address. Plain
- * text inputs rather than country/state dropdowns — there's no
- * country/region dataset in this project yet, and fabricating a partial
- * one would look more built-out than it actually is.
- */
 const SchoolLocationSection = ({ register, errors }) => (
   <div className="space-y-5">
     <h2 className="text-base font-semibold text-text">Location</h2>

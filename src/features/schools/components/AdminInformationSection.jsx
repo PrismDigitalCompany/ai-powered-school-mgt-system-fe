@@ -1,12 +1,6 @@
 import Field from "../../../components/inputs/Field";
 import Input from "../../../components/inputs/Input";
 
-/**
- * Admin Information section: the School Admin account created alongside
- * the school. Password is mandatory here — this creates a real sign-in
- * account for that admin, not just a contact record, so it can't be
- * optional or silently auto-generated.
- */
 const AdminInformationSection = ({ register, errors }) => (
   <div className="space-y-5">
     <h2 className="text-base font-semibold text-text">Admin Information</h2>
