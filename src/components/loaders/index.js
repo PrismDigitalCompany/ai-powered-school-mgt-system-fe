@@ -1,0 +1,10 @@
+export { default as Spinner } from "./Spinner";
+export { default as SkeletonLoader } from "./SkeletonLoader";
+export { default as PageLoader } from "./PageLoader";
+export { default as FullScreenLoader } from "./FullScreenLoader";
+export { default as BtnLoader } from "./BtnLoader";
+export { default as TableLoader } from "./TableLoader";
+export { default as TableSkeletonLoader } from "./TableSkeletonLoader";
+export { default as CardSkeletonLoader } from "./CardSkeletonLoader";
+export { default as FormSkeletonLoader } from "./FormSkeletonLoader";
+export { default as DashboardSkeletonLoader } from "./DashboardSkeletonLoader";

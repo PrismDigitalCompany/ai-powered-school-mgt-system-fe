@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npm run build 2>&1)",
+      "PowerShell(node verify-edit-school-admin.mjs)",
+      "PowerShell(node verify-edit-school-admin.mjs 2>&1)"
+    ]
+  }
+}
