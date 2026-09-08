@@ -19,27 +19,6 @@ import PlanFeaturesSection from "./PlanFeaturesSection";
 import PlanStatusSection from "./PlanStatusSection";
 import { useUpdateSubscriptionPlan } from "../hooks/useUpdateSubscriptionPlan";
 
-/**
- * Reuses the exact same section components as CreateSubscriptionPlanForm
- * (PlanIdentitySection/PlanBillingSection/PlanLimitsSection/
- * PlanFeaturesSection/PlanStatusSection) unmodified — every field-level
- * rule, layout, and control is identical between Create and Edit, so
- * there's nothing edit-specific to change in them. Only this outer
- * wrapper differs: the schema instance (Edit's excludes the plan's own
- * name from the duplicate check), the mutation, the submit side-effect,
- * and the button labels/navigation target — the same shape
- * CreateSchoolForm/EditSchoolForm already keep as separate wrapper
- * components around fully shared section components.
- *
- * `values` (not `defaultValues`) is used so the form re-populates
- * whenever `plan` changes, without a manual useEffect + reset() —
- * matching EditSchoolForm/EditSchoolAdminForm.
- *
- * The plan's `id` is never part of the form and is never sent as
- * editable — it travels only as the route param / mutation argument,
- * and both session-store writers below force it back onto the record
- * regardless of what's submitted.
- */
 const EditSubscriptionPlanForm = ({ plan }) => {
   const navigate = useNavigate();
   const updatePlanMutation = useUpdateSubscriptionPlan();

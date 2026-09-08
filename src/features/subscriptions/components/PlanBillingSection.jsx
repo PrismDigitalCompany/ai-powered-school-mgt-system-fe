@@ -6,12 +6,6 @@ import { PLAN_CURRENCY_OPTIONS } from "../schemas/create-subscription-plan.schem
 
 const selectClassName = cn(NATIVE_SELECT_CLASSNAME, "w-full");
 
-/**
- * Currency uses a plain native <select> over the small, fixed symbol
- * set (PLAN_CURRENCY_OPTIONS) — same choice SchoolInformationSection
- * already makes for School Type/Category, not a new Select primitive
- * and not a full ISO currency picker.
- */
 const PlanBillingSection = ({ register, errors }) => (
   <div className="space-y-5">
     <h2 className="text-base font-semibold text-text">Pricing</h2>

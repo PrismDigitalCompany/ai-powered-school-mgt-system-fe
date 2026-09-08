@@ -2,14 +2,7 @@ import { Controller } from "react-hook-form";
 import Field from "../../../components/inputs/Field";
 import Input from "../../../components/inputs/Input";
 
-/**
- * One limit field: a number input plus an "Unlimited" checkbox that
- * toggles the field's value directly between a number and `null` — the
- * exact representation the plan model already uses for "no limit" (see
- * MOCK_SUBSCRIPTION_PLANS' Enterprise entry), not a -1 sentinel. Built
- * with Controller (not register) because the value isn't a plain string
- * input — it's this null/number toggle.
- */
+
 const LimitField = ({ name, label, control, error }) => (
   <Controller
     name={name}

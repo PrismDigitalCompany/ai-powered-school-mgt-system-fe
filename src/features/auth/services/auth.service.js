@@ -1,6 +1,5 @@
 import { apiClient } from "../../../services/apiClient";
 import { ROLES } from "../../../constants/role";
-import { ROUTES } from "../../../constants/route";
 
 const BASE_URL = "/auth";
 
@@ -52,52 +51,38 @@ export const authService = {
       return devSession;
     }
 
-    const response = await apiClient.post(
-      `${BASE_URL} ${ROUTES.AUTH.LOGIN}`,
-      credentials,
-    );
+    const response = await apiClient.post(`${BASE_URL}/login`, credentials);
     return normalizeLoginResponse(response.data);
   },
 
   register: async (payload) => {
-    const response = await apiClient.post(
-      `${BASE_URL} ${ROUTES.AUTH.REGISTER}`,
-      payload,
-    );
+    const response = await apiClient.post(`${BASE_URL}/register`, payload);
     return normalizeRegisterResponse(response.data);
   },
 
   forgotPassword: async ({ email }) => {
-    await apiClient.post(`${BASE_URL} ${ROUTES.AUTH.FORGOT_PASSWORD}`, {
-      email,
-    });
+    await apiClient.post(`${BASE_URL}/forgot-password`, { email });
   },
 
   resetPassword: async ({ token, password }) => {
-    await apiClient.post(`${BASE_URL} ${ROUTES.AUTH.RESET_PASSWORD}`, {
-      token,
-      password,
-    });
+    await apiClient.post(`${BASE_URL}/reset-password`, { token, password });
   },
 
   verifyOtp: async ({ email, otp }) => {
-    await apiClient.post(`${BASE_URL} ${ROUTES.AUTH.VERIFY_OTP}`, {
-      email,
-      otp,
-    });
+    await apiClient.post(`${BASE_URL}/verify-otp`, { email, otp });
   },
 
   resendOtp: async ({ email }) => {
-    await apiClient.post(`${BASE_URL} ${ROUTES.AUTH.RESEND_OTP}`, { email });
+    await apiClient.post(`${BASE_URL}/verify-otp/resend`, { email });
   },
 
   logout: async () => {
-    const response = await apiClient.post(`${BASE_URL} ${ROUTES.AUTH.LOGOUT}`);
+    const response = await apiClient.post(`${BASE_URL}/logout`);
     return response.data;
   },
 
   getMe: async () => {
-    const response = await apiClient.get(`${BASE_URL} ${ROUTES.AUTH.ME}`);
+    const response = await apiClient.get(`${BASE_URL}/me`);
     return response.data;
   },
 };

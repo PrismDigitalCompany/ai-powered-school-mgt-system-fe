@@ -1,12 +1,6 @@
 import { PLAN_FEATURE_CATALOG } from "../data/subscriptionPlans";
 
-/**
- * Renders exactly the centralized feature flags from
- * data/subscriptionPlans.js's PLAN_FEATURE_CATALOG — Parent Portal,
- * Advanced Reports, Multiple Campuses, Advanced Analytics, Custom
- * Features — never a second hardcoded flag list, so a flag added there
- * later appears here automatically.
- */
+
 const PlanFeaturesSection = ({ register }) => (
   <div className="space-y-5">
     <h2 className="text-base font-semibold text-text">Features</h2>

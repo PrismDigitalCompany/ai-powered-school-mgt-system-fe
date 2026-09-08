@@ -20,15 +20,7 @@ import PlanFeaturesSection from "./PlanFeaturesSection";
 import PlanStatusSection from "./PlanStatusSection";
 import { useCreateSubscriptionPlan } from "../hooks/useCreateSubscriptionPlan";
 
-/**
- * Submits through useCreateSubscriptionPlan (React Query mutation →
- * subscriptions.service → apiClient), same as CreateSchoolForm/
- * CreateSchoolAdminForm — this component never touches Axios or a raw
- * response directly. On success it also commits the plan to the
- * session-only preview store (data/createdSubscriptionPlans.js) so the
- * Plans List reflects it for the rest of this session — see that file
- * for why this is not persistence.
- */
+
 const CreateSubscriptionPlanForm = () => {
   const navigate = useNavigate();
   const createPlanMutation = useCreateSubscriptionPlan();

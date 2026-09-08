@@ -22,6 +22,19 @@ function normalizeDeleteSubscriptionPlanResponse(raw) {
   return raw ?? null;
 }
 
+function normalizeSchoolSubscriptionsResponse(raw) {
+  return Array.isArray(raw) ? raw : [];
+}
+
+function normalizeSchoolSubscriptionResponse(raw) {
+  return raw ?? null;
+}
+
+
+function normalizeCreateSchoolSubscriptionResponse(raw) {
+  return raw ?? null;
+}
+
 export const subscriptionsService = {
   getSubscriptionPlans: async () => {
     const response = await apiClient.get(`${BASE_URL}/plans`);
@@ -49,6 +62,24 @@ export const subscriptionsService = {
   deleteSubscriptionPlan: async (planId) => {
     const response = await apiClient.delete(`${BASE_URL}/plans/${planId}`);
     return normalizeDeleteSubscriptionPlanResponse(response.data);
+  },
+
+  getSchoolSubscriptions: async () => {
+    const response = await apiClient.get(`${BASE_URL}/schools`);
+    return normalizeSchoolSubscriptionsResponse(response.data);
+  },
+
+  getSchoolSubscription: async (schoolId) => {
+    const response = await apiClient.get(`${BASE_URL}/schools/${schoolId}`);
+    return normalizeSchoolSubscriptionResponse(response.data);
+  },
+
+  createSchoolSubscription: async (schoolId, payload) => {
+    const response = await apiClient.post(
+      `${BASE_URL}/schools/${schoolId}`,
+      payload,
+    );
+    return normalizeCreateSchoolSubscriptionResponse(response.data);
   },
 };
 

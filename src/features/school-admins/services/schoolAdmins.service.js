@@ -1,12 +1,21 @@
 import { apiClient } from "../../../services/apiClient";
 import { SCHOOL_PERMISSIONS } from "../../../constants/permission";
-import { ROUTES } from "../../../constants/route";
+
 const BASE_URL = "/school-admins";
 
 function normalizeCreateSchoolAdminResponse(raw) {
   return raw ?? null;
 }
 
+/**
+ * Assumed request:  PATCH /school-admins/:adminId
+ *   { firstName, lastName, email, phone }
+ *
+ * Only the editable profile/contact fields are sent. Password, password
+ * hash, reset token, authentication token, school assignment, account
+ * status and permissions are never part of this request — each is owned
+ * by its own workflow and endpoint.
+ */
 const UPDATABLE_SCHOOL_ADMIN_FIELDS = Object.freeze([
   "firstName",
   "lastName",
@@ -27,6 +36,16 @@ function normalizeUpdateSchoolAdminResponse(raw) {
   return raw ?? null;
 }
 
+/**
+ * Assumed request:  PUT /school-admins/:adminId/permissions
+ *   { grantedPermissions: string[], deniedPermissions: string[] }
+ *
+ * The two arrays are this School Admin's explicit overrides ON TOP OF
+ * their SCHOOL_ADMIN role baseline — never the role's own permission
+ * list, never another admin's. Every value is required to be one of the
+ * real, centrally-defined SCHOOL_PERMISSIONS; a permission can never sit
+ * in both arrays at once (deny wins if it does).
+ */
 function sanitizePermissionOverrides({
   grantedPermissions = [],
   deniedPermissions = [],
@@ -77,7 +96,7 @@ export const schoolAdminsService = {
 
   updateSchoolAdminPermissions: async (adminId, overrides) => {
     const response = await apiClient.put(
-      `${BASE_URL}/${adminId} ${ROUTES.SCHOOLADMINPERMIT.PERMISSION}`,
+      `${BASE_URL}/${adminId}/permissions`,
       sanitizePermissionOverrides(overrides),
     );
     return normalizeUpdateSchoolAdminPermissionsResponse(response.data);
@@ -85,30 +104,24 @@ export const schoolAdminsService = {
 
   resetSchoolAdminPassword: async (adminId, password) => {
     const response = await apiClient.post(
-      `${BASE_URL}/${adminId}${ROUTES.AUTH.RESET_PASSWORD}`,
+      `${BASE_URL}/${adminId}/reset-password`,
       { password },
     );
     return normalizeResetSchoolAdminPasswordResponse(response.data);
   },
 
   activateSchoolAdmin: async (adminId) => {
-    const response = await apiClient.post(
-      `${BASE_URL}/${adminId}${ROUTES.ACTIVITIES.ACTIVATE}`,
-    );
+    const response = await apiClient.post(`${BASE_URL}/${adminId}/activate`);
     return normalizeSchoolAdminLifecycleResponse(response.data);
   },
 
   deactivateSchoolAdmin: async (adminId) => {
-    const response = await apiClient.post(
-      `${BASE_URL}/${adminId}${ROUTES.ACTIVITIES.DEACTIVATE}`,
-    );
+    const response = await apiClient.post(`${BASE_URL}/${adminId}/deactivate`);
     return normalizeSchoolAdminLifecycleResponse(response.data);
   },
 
   getSchoolAdminActivity: async (adminId) => {
-    const response = await apiClient.get(
-      `${BASE_URL}/${adminId}${ROUTES.ACTIVITIES.ACTIVITY}`,
-    );
+    const response = await apiClient.get(`${BASE_URL}/${adminId}/activity`);
     return normalizeSchoolAdminActivityResponse(response.data);
   },
 };

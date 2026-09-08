@@ -30,6 +30,8 @@ import {
   useSubscriptionPlanSessionState,
   getEffectiveSubscriptionPlans,
 } from "../../subscriptions/data/createdSubscriptionPlans";
+import { useSchoolSubscription } from "../../subscriptions/hooks/useSchoolSubscription";
+import { SUBSCRIPTION_STATUS_BADGE } from "../../subscriptions/data/schoolSubscriptions";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { STATUS } from "../../../constants/status";
 import { PERMISSIONS } from "../../../constants/permission";
@@ -39,6 +41,7 @@ const SchoolDetailsPage = () => {
   const { id: schoolId } = useParams();
   const navigate = useNavigate();
   const { data: school } = useSchool(schoolId);
+  const { data: schoolSubscription } = useSchoolSubscription(schoolId);
   const [statusOverride, setStatusOverride] = useState(null);
   const [assignedAdminOverride, setAssignedAdminOverride] = useState();
   const [pendingAction, setPendingAction] = useState(null);
@@ -440,6 +443,47 @@ const SchoolDetailsPage = () => {
           <SchoolDetailField
             label="Date Registered"
             value={format(new Date(school.createdAt), "d MMM yyyy")}
+          />
+          <SchoolDetailField
+            label="Actual Subscription"
+            value={
+              schoolSubscription ? (
+                <div className="flex items-center gap-2">
+                  <Badge
+                    tone={
+                      SUBSCRIPTION_STATUS_BADGE[schoolSubscription.status]?.tone
+                    }
+                  >
+                    {SUBSCRIPTION_STATUS_BADGE[schoolSubscription.status]
+                      ?.label ?? schoolSubscription.status}
+                  </Badge>
+                  <Link
+                    to={buildPath(
+                      ROUTES.SUPER_ADMIN.SCHOOL_SUBSCRIPTION_DETAILS,
+                      { schoolId: school.id },
+                    )}
+                    className="text-xs text-brand-700 hover:underline"
+                  >
+                    View Subscription
+                  </Link>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <span>No subscription record</span>
+                  <Can permission={PERMISSIONS.SUBSCRIPTIONS_MANAGE}>
+                    <Link
+                      to={buildPath(
+                        ROUTES.SUPER_ADMIN.SCHOOL_SUBSCRIPTION_CREATE,
+                        { schoolId: school.id },
+                      )}
+                      className="text-xs text-brand-700 hover:underline"
+                    >
+                      Create Subscription
+                    </Link>
+                  </Can>
+                </div>
+              )
+            }
           />
         </div>
       </Card>
