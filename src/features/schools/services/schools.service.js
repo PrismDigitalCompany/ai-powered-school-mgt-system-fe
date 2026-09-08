@@ -1,6 +1,5 @@
 import { apiClient } from "../../../services/apiClient";
-import { ROUTES } from "../../../constants/route";
-import { Routes } from "react-router-dom";
+
 const BASE_URL = "/schools";
 
 function normalizeCreateSchoolResponse(raw) {
@@ -39,29 +38,23 @@ export const schoolsService = {
   },
 
   activateSchool: async (schoolId) => {
-    const response = await apiClient.post(
-      `${BASE_URL}/${schoolId}${ROUTES.ACTIVITIES.ACTIVATE}`,
-    );
+    const response = await apiClient.post(`${BASE_URL}/${schoolId}/activate`);
     return normalizeLifecycleResponse(response.data);
   },
 
   deactivateSchool: async (schoolId) => {
-    const response = await apiClient.post(
-      `${BASE_URL}/${schoolId}${ROUTES.ACTIVITIES.DEACTIVATE}`,
-    );
+    const response = await apiClient.post(`${BASE_URL}/${schoolId}/deactivate`);
     return normalizeLifecycleResponse(response.data);
   },
 
   suspendSchool: async (schoolId) => {
-    const response = await apiClient.post(
-      `${BASE_URL}/${schoolId}${ROUTES.ACTIVITIES.SUSPEND}`,
-    );
+    const response = await apiClient.post(`${BASE_URL}/${schoolId}/suspend`);
     return normalizeLifecycleResponse(response.data);
   },
 
   assignSchoolAdmin: async (schoolId, schoolAdminId) => {
     const response = await apiClient.post(
-      `${BASE_URL}/${schoolId}${ROUTES.ACTIVITIES.SCHOOL_ADMIN}`,
+      `${BASE_URL}/${schoolId}/school-admin`,
       { schoolAdminId },
     );
     return normalizeAssignSchoolAdminResponse(response.data);
@@ -69,14 +62,14 @@ export const schoolsService = {
 
   removeSchoolAdmin: async (schoolId) => {
     const response = await apiClient.delete(
-      `${BASE_URL}/${schoolId}${ROUTES.ACTIVITIES.SCHOOL_ADMIN}`,
+      `${BASE_URL}/${schoolId}/school-admin`,
     );
     return normalizeRemoveSchoolAdminResponse(response.data);
   },
 
   assignSubscriptionPlan: async (schoolId, planId) => {
     const response = await apiClient.post(
-      `${BASE_URL}/${schoolId}${ROUTES.ACTIVITIES.SUBSCRIBTION_PLAN}`,
+      `${BASE_URL}/${schoolId}/subscription-plan`,
       { planId },
     );
     return normalizeAssignSubscriptionPlanResponse(response.data);

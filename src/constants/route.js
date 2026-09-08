@@ -39,6 +39,9 @@ export const ROUTES = Object.freeze({
     SUBSCRIPTION_PLANS_CREATE: "/admin/subscriptions/plans/create",
     SUBSCRIPTION_PLAN_DETAILS: "/admin/subscriptions/plans/:planId",
     SUBSCRIPTION_PLAN_EDIT: "/admin/subscriptions/plans/:planId/edit",
+    SCHOOL_SUBSCRIPTIONS: "/admin/subscriptions/schools",
+    SCHOOL_SUBSCRIPTION_DETAILS: "/admin/subscriptions/schools/:schoolId",
+    SCHOOL_SUBSCRIPTION_CREATE: "/admin/subscriptions/schools/:schoolId/create",
     ROLES_PERMISSIONS: "/admin/roles-permissions",
     ANALYTICS: "/admin/analytics",
     AUDIT_LOGS: "/admin/audit-logs",
@@ -91,22 +94,6 @@ export const ROUTES = Object.freeze({
     PROFILE: "/profile",
     SETTINGS: "/settings",
     NOTIFICATIONS: "/notifications",
-  }),
-
-  SUBSCRIBE: Object.freeze({
-    PLANS: "/plans",
-  }),
-
-  SCHOOLADMINPERMIT: Object.freeze({
-    PERMISSION: "/permissions",
-  }),
-  ACTIVITIES: Object.freeze({
-    ACTIVATE: "/activate",
-    DEACTIVATE: "/deactivate",
-    ACTIVITY: "/activity",
-    SUSPEND: "/suspend",
-    SCHOOL_ADMIN: "/school-admin",
-    SUBSCRIBTION_PLAN: "/subscription-plan",
   }),
 });
 

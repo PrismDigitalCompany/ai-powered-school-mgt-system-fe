@@ -11,7 +11,6 @@ import SubscriptionPlanCard from "../components/SubscriptionPlanCard";
 import { useSubscriptionPlans } from "../hooks/useSubscriptionPlans";
 import { ROUTES } from "../../../constants/route";
 
-
 const SubscriptionPlansPage = () => {
   const {
     data,
@@ -32,12 +31,19 @@ const SubscriptionPlansPage = () => {
         title="Subscription Plans"
         subtitle="The plans available to schools on the platform."
         actions={
-          <Btn asChild>
-            <Link to={ROUTES.SUPER_ADMIN.SUBSCRIPTION_PLANS_CREATE}>
-              <Icon name="plus" className="h-4 w-4" />
-              Create Plan
-            </Link>
-          </Btn>
+          <div className="flex flex-wrap gap-2">
+            <Btn asChild variant="secondary">
+              <Link to={ROUTES.SUPER_ADMIN.SCHOOL_SUBSCRIPTIONS}>
+                School Subscriptions
+              </Link>
+            </Btn>
+            <Btn asChild>
+              <Link to={ROUTES.SUPER_ADMIN.SUBSCRIPTION_PLANS_CREATE}>
+                <Icon name="plus" className="h-4 w-4" />
+                Create Plan
+              </Link>
+            </Btn>
+          </div>
         }
       />
 

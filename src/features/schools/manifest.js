@@ -8,14 +8,7 @@ const CreateSchoolPage = lazy(() => import("./pages/CreateSchoolPage"));
 const SchoolDetailsPage = lazy(() => import("./pages/SchoolDetailsPage"));
 const EditSchoolPage = lazy(() => import("./pages/EditSchoolPage"));
 
-/**
- * Schools feature route manifest. Owns ROUTES.SUPER_ADMIN.SCHOOLS —
- * moved here from features/super-admin/manifest.js's placeholder entry
- * now that the real page exists. Still rendered inside the Super Admin
- * shell (LAYOUTS.SUPER_ADMIN), same role/permission enforcement as
- * every other Super Admin page (RoleGuard via SuperAdminLayout,
- * PermissionGuard via this entry's `permission`).
- */
+
 export const manifest = [
   {
     path: ROUTES.SUPER_ADMIN.SCHOOLS,
