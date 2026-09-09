@@ -3,29 +3,29 @@ import {
   getEffectiveSchoolSubscriptions,
   resolveSchoolSubscriptionView,
 } from "../data/schoolSubscriptions";
-import { useCreatedSchoolSubscriptions } from "../data/createdSchoolSubscriptions";
+import { useSchoolSubscriptionSessionState } from "../data/createdSchoolSubscriptions";
 import {
   useSubscriptionPlanSessionState,
   getEffectiveSubscriptionPlans,
 } from "../data/createdSubscriptionPlans";
 
-
 export function useSchoolSubscription(schoolId) {
-  const subscriptionSessionState = useSubscriptionPlanSessionState();
-  const createdSubscriptions = useCreatedSchoolSubscriptions();
+  const subscriptionPlanSessionState = useSubscriptionPlanSessionState();
+  const schoolSubscriptionSessionState = useSchoolSubscriptionSessionState();
   const effectivePlans = useMemo(
-    () => getEffectiveSubscriptionPlans(subscriptionSessionState),
-    [subscriptionSessionState],
+    () => getEffectiveSubscriptionPlans(subscriptionPlanSessionState),
+    [subscriptionPlanSessionState],
   );
 
   const data = useMemo(() => {
-    const record = getEffectiveSchoolSubscriptions(createdSubscriptions).find(
-      (r) => r.schoolId === schoolId,
-    );
+    const record = getEffectiveSchoolSubscriptions(
+      schoolSubscriptionSessionState.createdSubscriptions,
+      schoolSubscriptionSessionState.overridesBySchoolId,
+    ).find((r) => r.schoolId === schoolId);
     return record
       ? resolveSchoolSubscriptionView(record, effectivePlans)
       : null;
-  }, [schoolId, createdSubscriptions, effectivePlans]);
+  }, [schoolId, schoolSubscriptionSessionState, effectivePlans]);
 
   return {
     data,

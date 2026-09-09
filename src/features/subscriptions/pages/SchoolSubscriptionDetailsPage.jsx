@@ -60,12 +60,27 @@ const SchoolSubscriptionDetailsPage = () => {
         title={`${school.name}'s Subscription`}
         subtitle={school.code}
         actions={
-          <Btn
-            variant="secondary"
-            onClick={() => navigate(ROUTES.SUPER_ADMIN.SCHOOL_SUBSCRIPTIONS)}
-          >
-            Back to School Subscriptions
-          </Btn>
+          <>
+            {subscription && (
+              <Can permission={PERMISSIONS.SUBSCRIPTIONS_MANAGE}>
+                <Btn asChild>
+                  <Link
+                    to={buildPath(ROUTES.SUPER_ADMIN.SCHOOL_SUBSCRIPTION_EDIT, {
+                      schoolId: school.id,
+                    })}
+                  >
+                    Change Subscription
+                  </Link>
+                </Btn>
+              </Can>
+            )}
+            <Btn
+              variant="secondary"
+              onClick={() => navigate(ROUTES.SUPER_ADMIN.SCHOOL_SUBSCRIPTIONS)}
+            >
+              Back to School Subscriptions
+            </Btn>
+          </>
         }
       />
 

@@ -12,8 +12,8 @@ separate — a School Admin can never act outside their own school.
 > (CRUD, lifecycle, School Admin assignment, subscription plan
 > assignment), School Admins (CRUD, permission overrides, activity
 > history), Subscription Plans (CRUD), and School Subscriptions
-> (list/view/create). Student/Teacher/Parent/academic/finance modules
-> are not started.
+> (list/view/create/change). Student/Teacher/Parent/academic/finance
+> modules are not started.
 
 ## Tech stack
 
@@ -157,39 +157,40 @@ anything with that name; that enforcement is backend's own to build.
 
 ### Quick reference
 
-| Method | Path                                     | Purpose                               | Permission (frontend gate) |
-| ------ | ---------------------------------------- | ------------------------------------- | -------------------------- |
-| POST   | `/auth/login`                            | Sign in                               | —                          |
-| POST   | `/auth/register`                         | Register                              | —                          |
-| POST   | `/auth/forgot-password`                  | Request password reset                | —                          |
-| POST   | `/auth/reset-password`                   | Complete password reset               | —                          |
-| POST   | `/auth/verify-otp`                       | Verify OTP                            | —                          |
-| POST   | `/auth/verify-otp/resend`                | Resend OTP                            | —                          |
-| POST   | `/auth/logout`                           | Sign out                              | —                          |
-| GET    | `/auth/me`                               | Current session                       | —                          |
-| POST   | `/schools`                               | Create school (+ its School Admin)    | `schools.create`           |
-| PATCH  | `/schools/:schoolId`                     | Update school profile                 | `schools.edit`             |
-| POST   | `/schools/:schoolId/activate`            | Activate school                       | `schools.activate`         |
-| POST   | `/schools/:schoolId/deactivate`          | Deactivate school                     | `schools.deactivate`       |
-| POST   | `/schools/:schoolId/suspend`             | Suspend school                        | `schools.suspend`          |
-| POST   | `/schools/:schoolId/school-admin`        | Assign an existing School Admin       | `school_admins.manage`     |
-| DELETE | `/schools/:schoolId/school-admin`        | Remove the School Admin assignment    | `school_admins.manage`     |
-| POST   | `/schools/:schoolId/subscription-plan`   | Assign/change the school's plan       | `subscriptions.manage`     |
-| POST   | `/school-admins`                         | Create a School Admin account         | `school_admins.manage`     |
-| PATCH  | `/school-admins/:adminId`                | Update profile/contact                | `school_admins.manage`     |
-| PUT    | `/school-admins/:adminId/permissions`    | Set permission overrides              | `school_admins.manage`     |
-| POST   | `/school-admins/:adminId/reset-password` | Reset password                        | `school_admins.manage`     |
-| POST   | `/school-admins/:adminId/activate`       | Activate account                      | `school_admins.manage`     |
-| POST   | `/school-admins/:adminId/deactivate`     | Deactivate account                    | `school_admins.manage`     |
-| GET    | `/school-admins/:adminId/activity`       | Activity/audit history                | `audit_logs.view`          |
-| GET    | `/subscriptions/plans`                   | List subscription plans               | `subscriptions.view`       |
-| GET    | `/subscriptions/plans/:planId`           | Get one plan                          | `subscriptions.view`       |
-| POST   | `/subscriptions/plans`                   | Create plan                           | `subscriptions.manage`     |
-| PATCH  | `/subscriptions/plans/:planId`           | Update plan                           | `subscriptions.manage`     |
-| DELETE | `/subscriptions/plans/:planId`           | Delete plan                           | `subscriptions.manage`     |
-| GET    | `/subscriptions/schools`                 | List school subscription records      | `subscriptions.view`       |
-| GET    | `/subscriptions/schools/:schoolId`       | Get one school's subscription record  | `subscriptions.view`       |
-| POST   | `/subscriptions/schools/:schoolId`       | Create a school's subscription record | `subscriptions.manage`     |
+| Method | Path                                               | Purpose                                         | Permission (frontend gate) |
+| ------ | -------------------------------------------------- | ----------------------------------------------- | -------------------------- |
+| POST   | `/auth/login`                                      | Sign in                                         | —                          |
+| POST   | `/auth/register`                                   | Register                                        | —                          |
+| POST   | `/auth/forgot-password`                            | Request password reset                          | —                          |
+| POST   | `/auth/reset-password`                             | Complete password reset                         | —                          |
+| POST   | `/auth/verify-otp`                                 | Verify OTP                                      | —                          |
+| POST   | `/auth/verify-otp/resend`                          | Resend OTP                                      | —                          |
+| POST   | `/auth/logout`                                     | Sign out                                        | —                          |
+| GET    | `/auth/me`                                         | Current session                                 | —                          |
+| POST   | `/schools`                                         | Create school (+ its School Admin)              | `schools.create`           |
+| PATCH  | `/schools/:schoolId`                               | Update school profile                           | `schools.edit`             |
+| POST   | `/schools/:schoolId/activate`                      | Activate school                                 | `schools.activate`         |
+| POST   | `/schools/:schoolId/deactivate`                    | Deactivate school                               | `schools.deactivate`       |
+| POST   | `/schools/:schoolId/suspend`                       | Suspend school                                  | `schools.suspend`          |
+| POST   | `/schools/:schoolId/school-admin`                  | Assign an existing School Admin                 | `school_admins.manage`     |
+| DELETE | `/schools/:schoolId/school-admin`                  | Remove the School Admin assignment              | `school_admins.manage`     |
+| POST   | `/schools/:schoolId/subscription-plan`             | Assign/change the school's plan                 | `subscriptions.manage`     |
+| POST   | `/school-admins`                                   | Create a School Admin account                   | `school_admins.manage`     |
+| PATCH  | `/school-admins/:adminId`                          | Update profile/contact                          | `school_admins.manage`     |
+| PUT    | `/school-admins/:adminId/permissions`              | Set permission overrides                        | `school_admins.manage`     |
+| POST   | `/school-admins/:adminId/reset-password`           | Reset password                                  | `school_admins.manage`     |
+| POST   | `/school-admins/:adminId/activate`                 | Activate account                                | `school_admins.manage`     |
+| POST   | `/school-admins/:adminId/deactivate`               | Deactivate account                              | `school_admins.manage`     |
+| GET    | `/school-admins/:adminId/activity`                 | Activity/audit history                          | `audit_logs.view`          |
+| GET    | `/subscriptions/plans`                             | List subscription plans                         | `subscriptions.view`       |
+| GET    | `/subscriptions/plans/:planId`                     | Get one plan                                    | `subscriptions.view`       |
+| POST   | `/subscriptions/plans`                             | Create plan                                     | `subscriptions.manage`     |
+| PATCH  | `/subscriptions/plans/:planId`                     | Update plan                                     | `subscriptions.manage`     |
+| DELETE | `/subscriptions/plans/:planId`                     | Delete plan                                     | `subscriptions.manage`     |
+| GET    | `/subscriptions/schools`                           | List school subscription records                | `subscriptions.view`       |
+| GET    | `/subscriptions/schools/:schoolId`                 | Get one school's subscription record            | `subscriptions.view`       |
+| POST   | `/subscriptions/schools/:schoolId`                 | Create a school's subscription record           | `subscriptions.manage`     |
+| PATCH  | `/subscriptions/schools/:schoolId/:subscriptionId` | Change plan/billing on an existing subscription | `subscriptions.manage`     |
 
 ### Auth (`src/features/auth/services/auth.service.js`)
 
@@ -226,7 +227,7 @@ signed-in user sees.
     "schoolType": "string",
     "schoolCategory": "string",
     "email": "string, email",
-    "phone": "string, matches ^[+\\d][\\d\\s-]{6,20}$",
+    "phone": "string, matches ^[+\\d][\\d\\s-]{11}$",
     "country": "string",
     "state": "string",
     "city": "string",
@@ -405,6 +406,29 @@ read as proof of an active, paid subscription.
   confirm billing**; it only establishes the subscription record.
   `trialStartDate`/`trialEndDate` are always `null` on creation — there
   is no trial-selection UI yet.
+
+- **`PATCH /subscriptions/schools/:schoolId/:subscriptionId`** — changes
+  the plan/billing selection on a school's **existing** subscription
+  record. Body:
+
+  ```json
+  {
+    "planId": "string, an existing plan id",
+    "billingCycle": "monthly | yearly",
+    "amount": "number — the selected plan's price at that billing cycle",
+    "currency": "string"
+  }
+  ```
+
+  `subscriptionId` is only ever in the URL, never in the body. The
+  frontend sends **no** `id`, `schoolId`, `status`, `startDate`,
+  `endDate`, `renewalDate`, or trial fields here — this call changes the
+  plan/billing selection only. Status, dates, and trial fields are all
+  preserved from the existing record. Like the create endpoint above,
+  this does not process a payment, generate an invoice, or change the
+  subscription's status — it is not cancellation, renewal, or an
+  upgrade/downgrade workflow; those aren't built yet (see "Not yet built
+  on the frontend at all" below).
 
 Suggested response/record shape based on what the frontend reads:
 

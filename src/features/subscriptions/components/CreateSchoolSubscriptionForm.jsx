@@ -216,7 +216,7 @@ const CreateSchoolSubscriptionForm = ({ school }) => {
           <Field id="amount" label="Amount" err={errors.amount?.message}>
             <div
               id="amount"
-              className="flex h-[42px] items-center rounded-lg border border-border bg-surface-muted px-3 text-sm text-text"
+              className="flex h-10.5 items-center rounded-lg border border-border bg-surface-muted px-3 text-sm text-text"
             >
               {selectedPlan && typeof amount === "number"
                 ? formatCurrency(amount, selectedPlan.currency)

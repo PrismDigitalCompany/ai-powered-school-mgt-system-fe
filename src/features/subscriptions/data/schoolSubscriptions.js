@@ -196,6 +196,16 @@ export const MOCK_SCHOOL_SUBSCRIPTIONS = Object.freeze([
   },
 ]);
 
+export function getEffectiveSchoolSubscriptions(
+  createdSubscriptions = [],
+  overridesBySchoolId = {},
+) {
+  const baseRecords = MOCK_SCHOOL_SUBSCRIPTIONS.map(
+    (record) => overridesBySchoolId[record.schoolId] ?? record,
+  );
+  return [...baseRecords, ...createdSubscriptions];
+}
+
 export function resolveSchoolSubscriptionView(record, effectivePlans) {
   const school = MOCK_SCHOOLS.find((s) => s.id === record.schoolId) ?? null;
   const plan = effectivePlans.find((p) => p.id === record.planId) ?? null;
