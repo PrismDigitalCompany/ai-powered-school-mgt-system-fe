@@ -14,19 +14,16 @@ import NotFoundPage from "../../components/feedback/NotFoundPage";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import SuperAdminLayout from "../../components/layouts/SuperAdminLayout";
 
-
 const LAYOUT_COMPONENTS = Object.freeze({
   [LAYOUTS.AUTH]: AuthLayout,
   [LAYOUTS.SUPER_ADMIN]: SuperAdminLayout,
 });
-
 
 const PROTECTED_LAYOUTS = Object.freeze([LAYOUTS.SUPER_ADMIN]);
 
 function lazyElement(Component) {
   return createElement(RouterLoader, { component: Component });
 }
-
 
 function buildRoutes(pages = []) {
   return pages.map(({ path, component, permission }) => {
@@ -87,7 +84,6 @@ export function createRoutes() {
       }),
     },
 
-    // Public layout groups (Authentication)
     ...publicLayouts.map((layout) => buildLayoutGroup(layout, groupedPages)),
 
   
@@ -98,7 +94,6 @@ export function createRoutes() {
       ),
     },
 
-    // Fallback
     {
       path: ROUTES.ERROR.NOT_FOUND,
       element: createElement(NotFoundPage),

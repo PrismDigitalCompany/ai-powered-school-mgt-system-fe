@@ -3,14 +3,13 @@ import {
   getEffectiveSchoolSubscriptions,
   resolveSchoolSubscriptionView,
 } from "../data/schoolSubscriptions";
-import { useCreatedSchoolSubscriptions } from "../data/createdSchoolSubscriptions";
+import { useSchoolSubscriptionSessionState } from "../data/createdSchoolSubscriptions";
 import {
   useSubscriptionPlanSessionState,
   getEffectiveSubscriptionPlans,
 } from "../data/createdSubscriptionPlans";
 
 const PAGE_SIZE = 10;
-
 
 export function useSchoolSubscriptions() {
   const [search, setSearch] = useState("");
@@ -20,7 +19,8 @@ export function useSchoolSubscriptions() {
   const [page, setPage] = useState(1);
 
   const subscriptionSessionState = useSubscriptionPlanSessionState();
-  const createdSubscriptions = useCreatedSchoolSubscriptions();
+  const { createdSubscriptions, overridesBySubscriptionId } =
+    useSchoolSubscriptionSessionState();
   const effectivePlans = useMemo(
     () => getEffectiveSubscriptionPlans(subscriptionSessionState),
     [subscriptionSessionState],
@@ -28,10 +28,11 @@ export function useSchoolSubscriptions() {
 
   const allSubscriptions = useMemo(
     () =>
-      getEffectiveSchoolSubscriptions(createdSubscriptions).map((record) =>
-        resolveSchoolSubscriptionView(record, effectivePlans),
-      ),
-    [createdSubscriptions, effectivePlans],
+      getEffectiveSchoolSubscriptions(
+        createdSubscriptions,
+        overridesBySubscriptionId,
+      ).map((record) => resolveSchoolSubscriptionView(record, effectivePlans)),
+    [createdSubscriptions, overridesBySubscriptionId, effectivePlans],
   );
 
   const filtered = useMemo(() => {
@@ -80,8 +81,6 @@ export function useSchoolSubscriptions() {
     onPlanIdChange: withPageReset(setPlanId),
     billingCycle,
     onBillingCycleChange: withPageReset(setBillingCycle),
-    // Always false against local data — present so a future React Query
-    // swap doesn't change what callers branch on (see useSchools).
     isLoading: false,
     isError: false,
   };

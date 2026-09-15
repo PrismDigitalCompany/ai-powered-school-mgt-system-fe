@@ -61,7 +61,6 @@ export const MOCK_SUBSCRIPTION_PLANS = Object.freeze([
     monthlyPrice: 120000,
     yearlyPrice: 1200000,
     currency: "₦",
-    // Unlimited at this tier.
     studentLimit: null,
     teacherLimit: null,
     campusLimit: null,

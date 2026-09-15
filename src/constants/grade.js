@@ -8,5 +8,5 @@ export const GRADE_LABELA = {
 };
 
 export const CLASSES = ["JSS 1", "JSS 2", "JSS 3", "SS 1", "SS 2", "SS 3"];
-export const ARMS = ["A", "B", " C", "D"]; // etc ....
+export const ARMS = ["A", "B", " C", "D"];
 export const SECTIONS = ["Science", "ArtT", "Commercial"];

@@ -1,15 +1,9 @@
 import { z } from "zod";
 
-const MAX_LOGO_SIZE_BYTES = 2 * 1024 * 1024; // 2MB
+const MAX_LOGO_SIZE_BYTES = 2 * 1024 * 1024;
 const ACCEPTED_LOGO_TYPES = ["image/png", "image/jpeg", "image/webp"];
 export const PHONE_REGEX = /^[+\d][\d\s-]{6,20}$/;
 
-/**
- * Validation schema for the Create School / School Onboarding form.
- * Covers School Information + Location + the School Admin account
- * created alongside the school + optional logo. No subscription/
- * activation/academic-configuration fields — out of scope for this form.
- */
 export const createSchoolSchema = z.object({
   name: z
     .string()

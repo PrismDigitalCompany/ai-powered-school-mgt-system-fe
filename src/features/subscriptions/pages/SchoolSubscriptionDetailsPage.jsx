@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { format } from "date-fns";
 
@@ -7,13 +8,22 @@ import Btn from "../../../components/ui/Btn";
 import Badge from "../../../components/ui/Badge";
 import EmptyState from "../../../components/feedback/EmptyState";
 import Can from "../../../components/authorization/Can";
+import ConfirmationDialog from "../../../components/dialogs/ConfirmationDialog";
 import SchoolDetailField from "../../schools/components/SchoolDetailField";
 import { useSchool } from "../../schools/hooks/useSchool";
 import { useSchoolSubscription } from "../hooks/useSchoolSubscription";
+import { useRenewSchoolSubscription } from "../hooks/useRenewSchoolSubscription";
 import {
   SUBSCRIPTION_STATUS_BADGE,
   BILLING_CYCLE_LABEL,
+  isSchoolSubscriptionRenewable,
+  isBaseSchoolSubscription,
+  calculateSchoolSubscriptionRenewal,
 } from "../data/schoolSubscriptions";
+import {
+  setSchoolSubscriptionOverride,
+  updateCreatedSchoolSubscription,
+} from "../data/createdSchoolSubscriptions";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { PERMISSIONS } from "../../../constants/permission";
 import { ROUTES, buildPath } from "../../../constants/route";
@@ -23,6 +33,54 @@ const SchoolSubscriptionDetailsPage = () => {
   const navigate = useNavigate();
   const { data: school } = useSchool(schoolId);
   const { data: subscription } = useSchoolSubscription(schoolId);
+  const [isRenewDialogOpen, setIsRenewDialogOpen] = useState(false);
+  const renewMutation = useRenewSchoolSubscription();
+
+  const renewalPreview = useMemo(
+    () =>
+      subscription ? calculateSchoolSubscriptionRenewal(subscription) : null,
+    [subscription],
+  );
+
+  const handleConfirmRenew = () => {
+    renewMutation.mutate(
+      {
+        schoolId: subscription.schoolId,
+        subscriptionId: subscription.id,
+        payload: {
+          endDate: renewalPreview.endDate,
+          renewalDate: renewalPreview.renewalDate,
+        },
+      },
+      {
+        onSuccess: () => {
+          const updatedRecord = {
+            id: subscription.id,
+            schoolId: subscription.schoolId,
+            planId: subscription.planId,
+            status: subscription.status,
+            billingCycle: subscription.billingCycle,
+            amount: subscription.amount,
+            currency: subscription.currency,
+            startDate: subscription.startDate,
+            trialStartDate: subscription.trialStartDate,
+            trialEndDate: subscription.trialEndDate,
+            endDate: renewalPreview.endDate,
+            renewalDate: renewalPreview.renewalDate,
+          };
+          if (isBaseSchoolSubscription(subscription.id)) {
+            setSchoolSubscriptionOverride(subscription.id, updatedRecord);
+          } else {
+            updateCreatedSchoolSubscription(subscription.id, {
+              endDate: renewalPreview.endDate,
+              renewalDate: renewalPreview.renewalDate,
+            });
+          }
+          setIsRenewDialogOpen(false);
+        },
+      },
+    );
+  };
 
   if (!school) {
     return (
@@ -111,10 +169,48 @@ const SchoolSubscriptionDetailsPage = () => {
         </Card>
       ) : (
         <>
+          <ConfirmationDialog
+            open={isRenewDialogOpen}
+            onClose={() => setIsRenewDialogOpen(false)}
+            onConfirm={handleConfirmRenew}
+            isLoading={renewMutation.isPending}
+            title="Renew this subscription?"
+            description={
+              renewalPreview &&
+              `This extends ${school.name}'s ${
+                subscription.plan?.name ?? subscription.planId
+              } subscription (${
+                BILLING_CYCLE_LABEL[subscription.billingCycle] ??
+                subscription.billingCycle
+              } billing) by one billing cycle. Current end date: ${
+                renewalPreview.anchorDate
+                  ? format(new Date(renewalPreview.anchorDate), "d MMM yyyy")
+                  : "not set"
+              }. New end date: ${format(
+                new Date(renewalPreview.endDate),
+                "d MMM yyyy",
+              )}. This only extends the subscription's lifecycle period — it does not process payment, generate an invoice, or confirm that payment has been received.`
+            }
+            confirmLabel="Renew Subscription"
+          />
+
           <Card className="p-6">
-            <h2 className="mb-4 text-base font-semibold text-text">
-              Subscription
-            </h2>
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+              <h2 className="text-base font-semibold text-text">
+                Subscription
+              </h2>
+              {isSchoolSubscriptionRenewable(subscription.status) && (
+                <Can permission={PERMISSIONS.SUBSCRIPTIONS_MANAGE}>
+                  <Btn
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => setIsRenewDialogOpen(true)}
+                  >
+                    Renew Subscription
+                  </Btn>
+                </Can>
+              )}
+            </div>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               <SchoolDetailField
                 label="Plan"

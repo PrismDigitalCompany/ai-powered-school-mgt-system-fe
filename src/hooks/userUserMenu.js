@@ -34,7 +34,6 @@ export function useUserMenu({ onLogout } = {}) {
     [navigate, onLogout],
   );
 
-  // Outside click dismissal.
   useEffect(() => {
     if (!isOpen) return undefined;
 
@@ -52,7 +51,6 @@ export function useUserMenu({ onLogout } = {}) {
     return () => document.removeEventListener("mousedown", handlePointerDown);
   }, [isOpen]);
 
-  // Escape dismissal.
   useEffect(() => {
     if (!isOpen) return undefined;
 

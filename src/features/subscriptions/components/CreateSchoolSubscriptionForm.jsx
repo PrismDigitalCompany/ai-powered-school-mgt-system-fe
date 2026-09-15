@@ -90,8 +90,6 @@ const CreateSchoolSubscriptionForm = ({ school }) => {
             startDate: new Date(values.startDate).toISOString(),
             endDate: null,
             renewalDate: null,
-            // No trial workflow yet — deliberately left null/absent per
-            // this milestone's scope, not auto-calculated.
             trialStartDate: null,
             trialEndDate: null,
           });

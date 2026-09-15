@@ -195,7 +195,6 @@ const SchoolAdminDetailsPage = () => {
         confirmVariant="danger"
       />
 
-      {/* Identity summary */}
       <Card className="flex flex-wrap items-center gap-4 p-6">
         <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-border bg-surface-muted">
           <Icon name="userCircle" className="h-8 w-8 text-text-subtle" />
@@ -209,7 +208,6 @@ const SchoolAdminDetailsPage = () => {
         </div>
       </Card>
 
-      {/* Details */}
       <Card className="p-6">
         <h2 className="mb-4 text-base font-semibold text-text">
           Administrator Information

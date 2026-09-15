@@ -8,9 +8,6 @@ const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 const VerifyOtpPage = lazy(() => import("./pages/VerifyOtpPage"));
 
-/**
- * Auth feature route manifest.
- */
 export const manifest = [
   {
     path: ROUTES.AUTH.LOGIN,

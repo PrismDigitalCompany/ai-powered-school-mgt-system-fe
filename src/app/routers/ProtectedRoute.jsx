@@ -3,10 +3,6 @@ import { useAuthStore } from "../store/authStore";
 import FullScreenLoader from "../../components/loaders/FullScreenLoader";
 import { ROUTES } from "../../constants/route";
 
-/**
- * Gate for any route that requires a signed-in user, regardless of role.
- * Role-specific access is layered on top via RoleGuard.
- */
 const ProtectedRoute = () => {
   const location = useLocation();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);

@@ -7,15 +7,6 @@ function normalizeCreateSchoolAdminResponse(raw) {
   return raw ?? null;
 }
 
-/**
- * Assumed request:  PATCH /school-admins/:adminId
- *   { firstName, lastName, email, phone }
- *
- * Only the editable profile/contact fields are sent. Password, password
- * hash, reset token, authentication token, school assignment, account
- * status and permissions are never part of this request — each is owned
- * by its own workflow and endpoint.
- */
 const UPDATABLE_SCHOOL_ADMIN_FIELDS = Object.freeze([
   "firstName",
   "lastName",
@@ -36,16 +27,6 @@ function normalizeUpdateSchoolAdminResponse(raw) {
   return raw ?? null;
 }
 
-/**
- * Assumed request:  PUT /school-admins/:adminId/permissions
- *   { grantedPermissions: string[], deniedPermissions: string[] }
- *
- * The two arrays are this School Admin's explicit overrides ON TOP OF
- * their SCHOOL_ADMIN role baseline — never the role's own permission
- * list, never another admin's. Every value is required to be one of the
- * real, centrally-defined SCHOOL_PERMISSIONS; a permission can never sit
- * in both arrays at once (deny wins if it does).
- */
 function sanitizePermissionOverrides({
   grantedPermissions = [],
   deniedPermissions = [],

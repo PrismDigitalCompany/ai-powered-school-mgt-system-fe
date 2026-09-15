@@ -1,6 +1,5 @@
 import { GROUPS } from "../constants/group";
 
-// display the breadcrumbs to users
 export const SECTIONS = Object.freeze({
   [GROUPS.AUTH]: {
     label: "Authentication",
