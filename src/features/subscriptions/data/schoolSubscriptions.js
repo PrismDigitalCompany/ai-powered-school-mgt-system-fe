@@ -196,6 +196,16 @@ export const MOCK_SCHOOL_SUBSCRIPTIONS = Object.freeze([
   },
 ]);
 
+export function getEffectiveSchoolSubscriptions(createdSubscriptions = []) {
+  const createdSchoolIds = new Set(
+    createdSubscriptions.map((record) => record.schoolId),
+  );
+  const baseSubscriptions = MOCK_SCHOOL_SUBSCRIPTIONS.filter(
+    (record) => !createdSchoolIds.has(record.schoolId),
+  );
+  return [...baseSubscriptions, ...createdSubscriptions];
+}
+
 export function resolveSchoolSubscriptionView(record, effectivePlans) {
   const school = MOCK_SCHOOLS.find((s) => s.id === record.schoolId) ?? null;
   const plan = effectivePlans.find((p) => p.id === record.planId) ?? null;
