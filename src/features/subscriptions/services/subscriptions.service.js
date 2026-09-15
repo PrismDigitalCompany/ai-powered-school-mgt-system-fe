@@ -30,8 +30,22 @@ function normalizeSchoolSubscriptionResponse(raw) {
   return raw ?? null;
 }
 
-
 function normalizeCreateSchoolSubscriptionResponse(raw) {
+  return raw ?? null;
+}
+
+/**
+ * Assumed request:  PATCH /subscriptions/schools/:schoolId/:subscriptionId
+ *   { planId, billingCycle, amount, currency } — NOT a confirmed backend
+ *   contract. Changes an EXISTING School Subscription lifecycle record's
+ *   plan/billing selection. Does not send the subscription id as a
+ *   mutable body field (it's already in the URL), does not send
+ *   schoolId, and does not send status, dates, or trial fields — this
+ *   milestone doesn't change any of those.
+ * Assumed response: not relied upon structurally — normalized as opaque
+ *   data, same as the other methods here.
+ */
+function normalizeUpdateSchoolSubscriptionResponse(raw) {
   return raw ?? null;
 }
 
@@ -80,6 +94,14 @@ export const subscriptionsService = {
       payload,
     );
     return normalizeCreateSchoolSubscriptionResponse(response.data);
+  },
+
+  updateSchoolSubscription: async (schoolId, subscriptionId, payload) => {
+    const response = await apiClient.patch(
+      `${BASE_URL}/schools/${schoolId}/${subscriptionId}`,
+      payload,
+    );
+    return normalizeUpdateSchoolSubscriptionResponse(response.data);
   },
 };
 

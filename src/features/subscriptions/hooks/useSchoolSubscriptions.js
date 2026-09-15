@@ -3,14 +3,13 @@ import {
   getEffectiveSchoolSubscriptions,
   resolveSchoolSubscriptionView,
 } from "../data/schoolSubscriptions";
-import { useCreatedSchoolSubscriptions } from "../data/createdSchoolSubscriptions";
+import { useSchoolSubscriptionSessionState } from "../data/createdSchoolSubscriptions";
 import {
   useSubscriptionPlanSessionState,
   getEffectiveSubscriptionPlans,
 } from "../data/createdSubscriptionPlans";
 
 const PAGE_SIZE = 10;
-
 
 export function useSchoolSubscriptions() {
   const [search, setSearch] = useState("");
@@ -19,19 +18,20 @@ export function useSchoolSubscriptions() {
   const [billingCycle, setBillingCycle] = useState("");
   const [page, setPage] = useState(1);
 
-  const subscriptionSessionState = useSubscriptionPlanSessionState();
-  const createdSubscriptions = useCreatedSchoolSubscriptions();
+  const subscriptionPlanSessionState = useSubscriptionPlanSessionState();
+  const schoolSubscriptionSessionState = useSchoolSubscriptionSessionState();
   const effectivePlans = useMemo(
-    () => getEffectiveSubscriptionPlans(subscriptionSessionState),
-    [subscriptionSessionState],
+    () => getEffectiveSubscriptionPlans(subscriptionPlanSessionState),
+    [subscriptionPlanSessionState],
   );
 
   const allSubscriptions = useMemo(
     () =>
-      getEffectiveSchoolSubscriptions(createdSubscriptions).map((record) =>
-        resolveSchoolSubscriptionView(record, effectivePlans),
-      ),
-    [createdSubscriptions, effectivePlans],
+      getEffectiveSchoolSubscriptions(
+        schoolSubscriptionSessionState.createdSubscriptions,
+        schoolSubscriptionSessionState.overridesBySchoolId,
+      ).map((record) => resolveSchoolSubscriptionView(record, effectivePlans)),
+    [schoolSubscriptionSessionState, effectivePlans],
   );
 
   const filtered = useMemo(() => {

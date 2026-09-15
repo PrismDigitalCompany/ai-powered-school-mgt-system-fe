@@ -42,6 +42,7 @@ export const ROUTES = Object.freeze({
     SCHOOL_SUBSCRIPTIONS: "/admin/subscriptions/schools",
     SCHOOL_SUBSCRIPTION_DETAILS: "/admin/subscriptions/schools/:schoolId",
     SCHOOL_SUBSCRIPTION_CREATE: "/admin/subscriptions/schools/:schoolId/create",
+    SCHOOL_SUBSCRIPTION_EDIT: "/admin/subscriptions/schools/:schoolId/edit",
     ROLES_PERMISSIONS: "/admin/roles-permissions",
     ANALYTICS: "/admin/analytics",
     AUDIT_LOGS: "/admin/audit-logs",

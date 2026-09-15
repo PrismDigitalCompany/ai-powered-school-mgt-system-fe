@@ -24,6 +24,9 @@ const SchoolSubscriptionDetailsPage = lazy(
 const CreateSchoolSubscriptionPage = lazy(
   () => import("./pages/CreateSchoolSubscriptionPage"),
 );
+const ChangeSchoolSubscriptionPage = lazy(
+  () => import("./pages/ChangeSchoolSubscriptionPage"),
+);
 
 export const manifest = [
   {
@@ -83,6 +86,19 @@ export const manifest = [
     component: CreateSchoolSubscriptionPage,
     layout: LAYOUTS.SUPER_ADMIN,
     title: "Create School Subscription",
+    permission: PERMISSIONS.SUBSCRIPTIONS_MANAGE,
+  },
+  {
+    // Same "/:schoolId/edit" shape SCHOOL_EDIT already uses alongside
+    // SCHOOL_DETAILS — a distinct static trailing segment from both
+    // SCHOOL_SUBSCRIPTION_DETAILS ("/:schoolId") and
+    // SCHOOL_SUBSCRIPTION_CREATE ("/:schoolId/create"), so it can't
+    // shadow either. Gated by SUBSCRIPTIONS_MANAGE, not VIEW: changing
+    // a subscription record is a write.
+    path: ROUTES.SUPER_ADMIN.SCHOOL_SUBSCRIPTION_EDIT,
+    component: ChangeSchoolSubscriptionPage,
+    layout: LAYOUTS.SUPER_ADMIN,
+    title: "Change School Subscription",
     permission: PERMISSIONS.SUBSCRIPTIONS_MANAGE,
   },
 ];
