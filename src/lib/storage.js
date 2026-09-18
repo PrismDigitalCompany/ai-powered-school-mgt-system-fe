@@ -1,5 +1,3 @@
-
-
 export const storage = {
   get(key, fallback = null) {
     try {
@@ -13,14 +11,12 @@ export const storage = {
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch {
-      // ignore write failures (e.g. storage disabled/full)
     }
   },
   remove(key) {
     try {
       localStorage.removeItem(key);
     } catch {
-      // ignore
     }
   },
 };

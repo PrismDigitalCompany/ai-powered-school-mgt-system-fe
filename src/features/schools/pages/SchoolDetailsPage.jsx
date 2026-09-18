@@ -314,7 +314,6 @@ const SchoolDetailsPage = () => {
         confirmVariant="primary"
       />
 
-      {/* Identity summary */}
       <Card className="flex flex-wrap items-center gap-4 p-6">
         <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-border bg-surface-muted">
           <Icon name="school" className="h-7 w-7 text-text-subtle" />
@@ -329,7 +328,6 @@ const SchoolDetailsPage = () => {
         </div>
       </Card>
 
-      {/* School Information */}
       <Card className="p-6">
         <h2 className="mb-4 text-base font-semibold text-text">
           School Information
@@ -347,7 +345,6 @@ const SchoolDetailsPage = () => {
         </div>
       </Card>
 
-      {/* Location */}
       <Card className="p-6">
         <h2 className="mb-4 text-base font-semibold text-text">Location</h2>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -362,7 +359,6 @@ const SchoolDetailsPage = () => {
         </div>
       </Card>
 
-      {/* Administration */}
       <Card className="p-6">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-base font-semibold text-text">Administration</h2>
@@ -398,7 +394,6 @@ const SchoolDetailsPage = () => {
         )}
       </Card>
 
-      {/* Subscription & Status */}
       <Card className="p-6">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-base font-semibold text-text">
@@ -488,7 +483,6 @@ const SchoolDetailsPage = () => {
         </div>
       </Card>
 
-      {/* Usage Metrics */}
       <div>
         <h2 className="mb-4 text-base font-semibold text-text">
           Usage Metrics

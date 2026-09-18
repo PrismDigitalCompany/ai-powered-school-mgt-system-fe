@@ -1,8 +1,6 @@
 import { forwardRef } from "react";
 import { cn } from "../../../lib/clsx";
 
-/* Card */
-
 const Card = forwardRef(function Card({ className, children, ...props }, ref) {
   return (
     <section
@@ -19,8 +17,6 @@ const Card = forwardRef(function Card({ className, children, ...props }, ref) {
 });
 
 Card.displayName = "Card";
-
-/*Card Header*/
 
 const CardHeader = forwardRef(function CardHeader(
   { className, children, ...props },
@@ -42,8 +38,6 @@ const CardHeader = forwardRef(function CardHeader(
 
 CardHeader.displayName = "CardHeader";
 
-/* Card Title */
-
 const CardTitle = forwardRef(function CardTitle(
   { className, children, ...props },
   ref,
@@ -64,8 +58,6 @@ const CardTitle = forwardRef(function CardTitle(
 
 CardTitle.displayName = "CardTitle";
 
-/* Card Description*/
-
 const CardDescription = forwardRef(function CardDescription(
   { className, children, ...props },
   ref,
@@ -83,8 +75,6 @@ const CardDescription = forwardRef(function CardDescription(
 
 CardDescription.displayName = "CardDescription";
 
-/*Card Body */
-
 const CardBody = forwardRef(function CardBody(
   { className, children, ...props },
   ref,
@@ -97,8 +87,6 @@ const CardBody = forwardRef(function CardBody(
 });
 
 CardBody.displayName = "CardBody";
-
-/*Card Footer */
 
 const CardFooter = forwardRef(function CardFooter(
   { className, children, ...props },

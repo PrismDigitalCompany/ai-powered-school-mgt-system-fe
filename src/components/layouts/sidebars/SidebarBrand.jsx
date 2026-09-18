@@ -25,7 +25,6 @@ const SidebarBrand = ({
         className,
       )}
     >
-      {/* Logo / Default Icon */}
       <button
         type="button"
         onClick={handleClick}
@@ -48,7 +47,6 @@ const SidebarBrand = ({
         )}
       </button>
 
-      {/* Hidden File Input */}
       {canUpload && (
         <input
           ref={fileInputRef}
@@ -59,7 +57,6 @@ const SidebarBrand = ({
         />
       )}
 
-      {/* School Details */}
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-semibold leading-tight text-slate-900">
           {name}

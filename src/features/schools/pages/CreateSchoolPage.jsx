@@ -6,7 +6,7 @@ const CreateSchoolPage = () => (
   <div>
     <PageHeader
       title="Register School"
-      subtitle="Add a new school to the platform."
+      subtitle="Add a new school to the platform." className="bg"
     />
 
     <Card className="p-6">

@@ -1,3 +1,4 @@
+import { addMonths, addYears } from "date-fns";
 import { MOCK_SCHOOLS } from "../../schools/data/schoolsMock";
 
 export const SUBSCRIPTION_STATUS = Object.freeze({
@@ -23,6 +24,18 @@ export const BILLING_CYCLE_LABEL = Object.freeze({
   [BILLING_CYCLE.MONTHLY]: "Monthly",
   [BILLING_CYCLE.YEARLY]: "Yearly",
 });
+
+// Conservative default: a subscription can only be renewed while it is
+// active or expired. Trial has no established renewal workflow yet, and a
+// cancelled subscription must not be renewable without an explicit rule.
+export const RENEWABLE_SUBSCRIPTION_STATUSES = Object.freeze([
+  SUBSCRIPTION_STATUS.ACTIVE,
+  SUBSCRIPTION_STATUS.EXPIRED,
+]);
+
+export function isSchoolSubscriptionRenewable(status) {
+  return RENEWABLE_SUBSCRIPTION_STATUSES.includes(status);
+}
 
 export const MOCK_SCHOOL_SUBSCRIPTIONS = Object.freeze([
   {
@@ -198,12 +211,54 @@ export const MOCK_SCHOOL_SUBSCRIPTIONS = Object.freeze([
 
 export function getEffectiveSchoolSubscriptions(
   createdSubscriptions = [],
-  overridesBySchoolId = {},
+  overridesBySubscriptionId = {},
 ) {
-  const baseRecords = MOCK_SCHOOL_SUBSCRIPTIONS.map(
-    (record) => overridesBySchoolId[record.schoolId] ?? record,
+  const createdSchoolIds = new Set(
+    createdSubscriptions.map((record) => record.schoolId),
   );
-  return [...baseRecords, ...createdSubscriptions];
+  const baseSubscriptions = MOCK_SCHOOL_SUBSCRIPTIONS.filter(
+    (record) => !createdSchoolIds.has(record.schoolId),
+  ).map((record) => overridesBySubscriptionId[record.id] ?? record);
+  return [...baseSubscriptions, ...createdSubscriptions];
+}
+
+export function isBaseSchoolSubscription(subscriptionId) {
+  return MOCK_SCHOOL_SUBSCRIPTIONS.some(
+    (record) => record.id === subscriptionId,
+  );
+}
+
+// Renewal anchor: prefer the subscription's own scheduled renewalDate (the
+// meaningful "current period end" marker while a subscription is active,
+// since endDate is left null until a subscription actually ends). Fall back
+// to endDate for an expired subscription, whose lifecycle period already has
+// a defined end. Never anchor on "now" — that would invent a retroactive or
+// arbitrary billing period unrelated to the subscription's own record.
+export function getSchoolSubscriptionRenewalAnchorDate(subscription) {
+  return (
+    subscription.renewalDate ?? subscription.endDate ?? subscription.startDate
+  );
+}
+
+// Extends the subscription by exactly one calendar billing cycle from its
+// renewal anchor, using calendar-aware date-fns arithmetic (not fixed
+// 30/365-day durations). Both endDate and renewalDate are set to the same
+// computed date: it represents both the end of the newly renewed period and
+// the point the next renewal will be due.
+export function calculateSchoolSubscriptionRenewal(subscription) {
+  const anchorDate = getSchoolSubscriptionRenewalAnchorDate(subscription);
+  const anchor = new Date(anchorDate);
+  const nextPeriodEnd =
+    subscription.billingCycle === BILLING_CYCLE.YEARLY
+      ? addYears(anchor, 1)
+      : addMonths(anchor, 1);
+  const nextPeriodEndIso = nextPeriodEnd.toISOString();
+
+  return {
+    anchorDate,
+    endDate: nextPeriodEndIso,
+    renewalDate: nextPeriodEndIso,
+  };
 }
 
 export function resolveSchoolSubscriptionView(record, effectivePlans) {

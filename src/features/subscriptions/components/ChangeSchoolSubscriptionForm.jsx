@@ -16,13 +16,13 @@ import AssignSubscriptionPlanDialog from "../../schools/components/AssignSubscri
 import { updateSchoolSubscriptionSchema } from "../schemas/update-school-subscription.schema";
 import { useUpdateSchoolSubscription } from "../hooks/useUpdateSchoolSubscription";
 import {
-  isBaseSchoolSubscription,
   setSchoolSubscriptionOverride,
   updateCreatedSchoolSubscription,
 } from "../data/createdSchoolSubscriptions";
 import {
   BILLING_CYCLE,
   SUBSCRIPTION_STATUS_BADGE,
+  isBaseSchoolSubscription,
 } from "../data/schoolSubscriptions";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { ROUTES, buildPath } from "../../../constants/route";
@@ -108,10 +108,10 @@ const ChangeSchoolSubscriptionForm = ({ school, subscription }) => {
             trialEndDate: subscription.trialEndDate,
           };
 
-          if (isBaseSchoolSubscription(school.id)) {
-            setSchoolSubscriptionOverride(school.id, updatedRecord);
+          if (isBaseSchoolSubscription(subscription.id)) {
+            setSchoolSubscriptionOverride(subscription.id, updatedRecord);
           } else {
-            updateCreatedSchoolSubscription(school.id, updatedRecord);
+            updateCreatedSchoolSubscription(subscription.id, updatedRecord);
           }
 
           navigate(detailsPath);

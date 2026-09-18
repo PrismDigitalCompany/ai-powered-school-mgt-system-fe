@@ -9,7 +9,6 @@ export function useExamTimer({
 }) {
   const key = `${STORAGE_PREFIX}:${sessionId}`;
 
-  // Persist the end time (from the backend)
   const [examEndTime] = useState(() => {
     try {
       const stored = localStorage.getItem(key);

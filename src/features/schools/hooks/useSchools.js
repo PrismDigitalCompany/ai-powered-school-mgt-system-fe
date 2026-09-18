@@ -48,8 +48,6 @@ export function useSchools() {
     onStatusChange: withPageReset(setStatus),
     plan,
     onPlanChange: withPageReset(setPlan),
-    // Always false against local data — present so a future React Query
-    // swap doesn't change what callers branch on.
     isLoading: false,
     isError: false,
   };

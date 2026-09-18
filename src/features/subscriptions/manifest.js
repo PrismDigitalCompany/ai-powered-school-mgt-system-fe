@@ -58,11 +58,6 @@ export const manifest = [
     permission: PERMISSIONS.SUBSCRIPTIONS_MANAGE,
   },
   {
-    // Sibling collection to the /plans/* routes above, under the same
-    // /admin/subscriptions/* umbrella this manifest's own top comment
-    // already anticipated. "/schools" (list) vs "/schools/:schoolId"
-    // (details) is the same safe static-vs-dynamic shape already proven
-    // by every other list/details pair in this app.
     path: ROUTES.SUPER_ADMIN.SCHOOL_SUBSCRIPTIONS,
     component: SchoolSubscriptionsPage,
     layout: LAYOUTS.SUPER_ADMIN,
@@ -77,11 +72,6 @@ export const manifest = [
     permission: PERMISSIONS.SUBSCRIPTIONS_VIEW,
   },
   {
-    // One segment deeper than SCHOOL_SUBSCRIPTION_DETAILS
-    // ("/:schoolId/create" vs "/:schoolId") — different segment count,
-    // same safe shape SCHOOL_ADMIN_EDIT already relies on. Gated by
-    // SUBSCRIPTIONS_MANAGE, not VIEW: creating a subscription record is
-    // a write.
     path: ROUTES.SUPER_ADMIN.SCHOOL_SUBSCRIPTION_CREATE,
     component: CreateSchoolSubscriptionPage,
     layout: LAYOUTS.SUPER_ADMIN,

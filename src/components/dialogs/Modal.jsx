@@ -78,10 +78,6 @@ function Modal({
     initialFocusRef,
   });
 
-  /**
-   * Remember the element that opened the modal
-   * and restore focus when the modal closes.
-   */
   useEffect(() => {
     if (!open) {
       return;
@@ -115,7 +111,6 @@ function Modal({
     <AnimatePresence>
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Backdrop */}
           <motion.div
             className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             variants={backdropVariants}
@@ -131,7 +126,6 @@ function Modal({
             }}
           />
 
-          {/* Dialog */}
           <motion.div
             ref={modalRef}
             role="dialog"
@@ -153,7 +147,6 @@ function Modal({
             )}
             {...props}
           >
-            {/* Header */}
             {(title || showCloseButton) && (
               <header
                 className={cn(
@@ -192,12 +185,10 @@ function Modal({
               </header>
             )}
 
-            {/* Content */}
             <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
               {children}
             </div>
 
-            {/* Footer */}
             {footer && (
               <footer
                 className={cn(

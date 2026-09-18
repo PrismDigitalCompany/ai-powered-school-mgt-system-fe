@@ -10,7 +10,6 @@ const ErrorPage = () => {
   useEffect(() => {
     if (routeError) {
       console.error(routeError);
-      // Future integration: errorTrackingService.captureException(routeError);
     }
   }, [routeError]);
 

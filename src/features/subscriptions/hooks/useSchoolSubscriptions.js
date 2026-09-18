@@ -19,7 +19,8 @@ export function useSchoolSubscriptions() {
   const [page, setPage] = useState(1);
 
   const subscriptionPlanSessionState = useSubscriptionPlanSessionState();
-  const schoolSubscriptionSessionState = useSchoolSubscriptionSessionState();
+  const { createdSubscriptions, overridesBySubscriptionId } =
+    useSchoolSubscriptionSessionState();
   const effectivePlans = useMemo(
     () => getEffectiveSubscriptionPlans(subscriptionPlanSessionState),
     [subscriptionPlanSessionState],
@@ -28,10 +29,10 @@ export function useSchoolSubscriptions() {
   const allSubscriptions = useMemo(
     () =>
       getEffectiveSchoolSubscriptions(
-        schoolSubscriptionSessionState.createdSubscriptions,
-        schoolSubscriptionSessionState.overridesBySchoolId,
+        createdSubscriptions,
+        overridesBySubscriptionId,
       ).map((record) => resolveSchoolSubscriptionView(record, effectivePlans)),
-    [schoolSubscriptionSessionState, effectivePlans],
+    [createdSubscriptions, overridesBySubscriptionId, effectivePlans],
   );
 
   const filtered = useMemo(() => {
@@ -80,8 +81,6 @@ export function useSchoolSubscriptions() {
     onPlanIdChange: withPageReset(setPlanId),
     billingCycle,
     onBillingCycleChange: withPageReset(setBillingCycle),
-    // Always false against local data — present so a future React Query
-    // swap doesn't change what callers branch on (see useSchools).
     isLoading: false,
     isError: false,
   };

@@ -3,8 +3,6 @@ import { cn } from "../../lib/clsx";
 
 const TabsContext = createContext(null);
 
-/*   Tabs   */
-
 const Tabs = ({ value, defaultValue, onValueChange, children, className }) => {
   const currentValue = value ?? defaultValue;
 
@@ -19,8 +17,6 @@ const Tabs = ({ value, defaultValue, onValueChange, children, className }) => {
     </TabsContext.Provider>
   );
 };
-
-/*   Tabs List    */
 
 const TabsList = forwardRef(function TabsList(
   { className, children, ...props },
@@ -39,8 +35,6 @@ const TabsList = forwardRef(function TabsList(
 });
 
 TabsList.displayName = "TabsList";
-
-/* Tabs Trigger */
 
 const TabsTrigger = forwardRef(function TabsTrigger(
   { value, disabled = false, className, children, ...props },
@@ -89,8 +83,6 @@ const TabsTrigger = forwardRef(function TabsTrigger(
 });
 
 TabsTrigger.displayName = "TabsTrigger";
-
-/* Tabs Content */
 
 const TabsContent = forwardRef(function TabsContent(
   { value, className, children, ...props },

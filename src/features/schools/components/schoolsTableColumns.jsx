@@ -1,6 +1,10 @@
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 import Badge from "../../../components/ui/Badge";
 import Icon from "../../../components/icons/Icon.jsx";
+import Can from "../../../components/authorization/Can";
+import { PERMISSIONS } from "../../../constants/permission";
+import { ROUTES, buildPath } from "../../../constants/route";
 
 export const schoolsTableColumns = [
   {
@@ -83,17 +87,16 @@ export const schoolsTableColumns = [
     key: "actions",
     header: "",
     className: "text-right",
-    // Placeholder only — row actions (view/edit/suspend/etc.) are a
-    // separate, later task.
-    render: () => (
-      <button
-        type="button"
-        disabled
-        className="ml-auto flex h-8 w-8 items-center justify-center rounded-lg text-text-subtle disabled:cursor-not-allowed"
-        aria-label="Row actions (not yet available)"
-      >
-        <Icon name="moreHorizontal" className="h-4 w-4" />
-      </button>
+    render: (school) => (
+      <Can permission={PERMISSIONS.SCHOOLS_EDIT}>
+        <Link
+          to={buildPath(ROUTES.SUPER_ADMIN.SCHOOL_EDIT, { id: school.id })}
+          className="ml-auto flex h-8 w-8 items-center justify-center rounded-lg text-text-subtle hover:bg-surface-muted hover:text-text"
+          aria-label={`Edit ${school.name}`}
+        >
+          <Icon name="moreHorizontal" className="h-4 w-4" />
+        </Link>
+      </Can>
     ),
   },
 ];

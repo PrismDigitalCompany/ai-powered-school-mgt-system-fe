@@ -11,7 +11,8 @@ import {
 
 export function useSchoolSubscription(schoolId) {
   const subscriptionPlanSessionState = useSubscriptionPlanSessionState();
-  const schoolSubscriptionSessionState = useSchoolSubscriptionSessionState();
+  const { createdSubscriptions, overridesBySubscriptionId } =
+    useSchoolSubscriptionSessionState();
   const effectivePlans = useMemo(
     () => getEffectiveSubscriptionPlans(subscriptionPlanSessionState),
     [subscriptionPlanSessionState],
@@ -19,13 +20,13 @@ export function useSchoolSubscription(schoolId) {
 
   const data = useMemo(() => {
     const record = getEffectiveSchoolSubscriptions(
-      schoolSubscriptionSessionState.createdSubscriptions,
-      schoolSubscriptionSessionState.overridesBySchoolId,
+      createdSubscriptions,
+      overridesBySubscriptionId,
     ).find((r) => r.schoolId === schoolId);
     return record
       ? resolveSchoolSubscriptionView(record, effectivePlans)
       : null;
-  }, [schoolId, schoolSubscriptionSessionState, effectivePlans]);
+  }, [schoolId, createdSubscriptions, overridesBySubscriptionId, effectivePlans]);
 
   return {
     data,

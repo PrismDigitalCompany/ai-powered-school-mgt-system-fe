@@ -48,7 +48,6 @@ const RegisterPage = () => {
   }
 
   return (
-    // this can be reverse when agreed
     <div hidden={true}>
       <h1 className="text-2xl font-semibold text-text">Create an account</h1>
       <p className="mt-1.5 text-sm text-text-muted">

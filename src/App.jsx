@@ -3,12 +3,10 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoutes from './routes/ProtectedRoutes';
 import DashboardLayout from './components/layout/DashboardLayout';
 
-// Public pages
 import LandingPage from './pages/public/LandingPage';
 import AuthPage from './pages/public/AuthPage';
 import NotFoundPage from './pages/public/NotFoundPage';
 
-// Admin portal pages
 import AdminDashboard from './pages/admin/AdminDashboard';
 import Admission from './pages/admin/Admission';
 import AdminFees from './pages/admin/Fees';
@@ -31,7 +29,6 @@ import EditCourse from './pages/admin/EditCourse';
 import AddProgramme from './pages/admin/AddProgramme';
 import EditProgramme from './pages/admin/EditProgramme';
 
-// Teacher portal pages
 import TeacherDashboard from './pages/teacher/TeacherDashboard';
 import TeacherAttendance from './pages/teacher/Attendance';
 import MyClasses from './pages/teacher/MyClasses';
@@ -40,7 +37,6 @@ import ScoreEntry from './pages/teacher/ScoreEntry';
 import TeacherTimeTable from './pages/teacher/TimeTable';
 import Assignment from './pages/teacher/Assignment';
 
-// Student portal pages
 import StudentDashboard from './pages/student/StudentDashboard';
 import Announcements from './pages/student/Announcement';
 import StudentExamPage from './pages/student/ExamPage';
@@ -50,7 +46,6 @@ import StudentSchoolFees from './pages/student/StudentSchoolFees';
 import StudentTimeTable from './pages/student/TimeTable';
 import StudentAttendance from './pages/student/Attendance';
 
-// Parent portal pages
 import ParentDashboard from './pages/parent/ParentDashboard';
 import ParentFees from './pages/parent/Fees';
 import ChildResults from './pages/parent/ChildResult';
@@ -62,11 +57,9 @@ const App = () => {
     <AuthProvider>
       <Router>
         <Routes>
-          {/* Public routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/auth" element={<AuthPage />} />
 
-          {/* Admin routes */}
           <Route
             path="/admin"
             element={
@@ -98,7 +91,6 @@ const App = () => {
             <Route path="all-insights" element={<Allinsight />} />
           </Route>
 
-          {/* Teacher routes */}
           <Route
             path="/teacher"
             element={
@@ -116,7 +108,6 @@ const App = () => {
             <Route path="assignment" element={<Assignment />} />
           </Route>
 
-          {/* Student routes */}
           <Route
             path="/student"
             element={
@@ -135,7 +126,6 @@ const App = () => {
             <Route path="attendance" element={<StudentAttendance />} />
           </Route>
 
-          {/* Parent routes */}
           <Route
             path="/parent"
             element={
@@ -151,7 +141,6 @@ const App = () => {
             <Route path="report-card" element={<StudentReportCard />} />
           </Route>
 
-          {/* 404 */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>

@@ -1,9 +1,8 @@
 import { useSyncExternalStore } from "react";
-import { MOCK_SCHOOL_SUBSCRIPTIONS } from "./schoolSubscriptions";
 
 let snapshot = {
   createdSubscriptions: [],
-  overridesBySchoolId: {},
+  overridesBySubscriptionId: {},
 };
 const listeners = new Set();
 
@@ -39,35 +38,46 @@ export function addCreatedSchoolSubscription(record) {
   });
 }
 
-export function updateCreatedSchoolSubscription(schoolId, updatedRecord) {
+export function buildSessionSchoolSubscriptionId(schoolId) {
+  return `SUB-SESSION-${schoolId}`;
+}
+
+export function isCreatedSchoolSubscription(subscriptionId) {
+  return snapshot.createdSubscriptions.some(
+    (record) => record.id === subscriptionId,
+  );
+}
+
+export function updateCreatedSchoolSubscription(subscriptionId, updates) {
   const index = snapshot.createdSubscriptions.findIndex(
-    (record) => record.schoolId === schoolId,
+    (record) => record.id === subscriptionId,
   );
   if (index === -1) {
     return false;
   }
   const nextCreated = [...snapshot.createdSubscriptions];
-  nextCreated[index] = Object.freeze(updatedRecord);
+  nextCreated[index] = Object.freeze({
+    ...nextCreated[index],
+    ...updates,
+    id: subscriptionId,
+  });
   commit({ ...snapshot, createdSubscriptions: nextCreated });
   return true;
 }
 
-export function setSchoolSubscriptionOverride(schoolId, updatedRecord) {
+// Renewing a base (fixture) subscription can't mutate the frozen
+// MOCK_SCHOOL_SUBSCRIPTIONS record, so the renewed result is stored as a
+// session-only override keyed by subscription id, mirroring
+// setSubscriptionPlanOverride in createdSubscriptionPlans.js.
+export function setSchoolSubscriptionOverride(subscriptionId, updatedRecord) {
   commit({
     ...snapshot,
-    overridesBySchoolId: {
-      ...snapshot.overridesBySchoolId,
-      [schoolId]: Object.freeze(updatedRecord),
+    overridesBySubscriptionId: {
+      ...snapshot.overridesBySubscriptionId,
+      [subscriptionId]: Object.freeze({
+        ...updatedRecord,
+        id: subscriptionId,
+      }),
     },
   });
-}
-
-export function isBaseSchoolSubscription(schoolId) {
-  return MOCK_SCHOOL_SUBSCRIPTIONS.some(
-    (record) => record.schoolId === schoolId,
-  );
-}
-
-export function buildSessionSchoolSubscriptionId(schoolId) {
-  return `SUB-SESSION-${schoolId}`;
 }

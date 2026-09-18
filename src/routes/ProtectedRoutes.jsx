@@ -5,7 +5,6 @@ const ProtectedRoutes = ({requiredRole}) => {
   const {user, loading} = useAuth();
   const location = useLocation();
 
-  // Revert this line of code to the original state
   if(!loading){
    return <Loading />;
   }
@@ -14,7 +13,6 @@ const ProtectedRoutes = ({requiredRole}) => {
     return <Navigate to={`/auth?redirect=${location.pathname}`} replace />;
   }
 
-  // Role Restriction Logic
   if(requiredRole && user.role !== requiredRole){
     return <Navigate to="/unauthorized" replace />;
   }

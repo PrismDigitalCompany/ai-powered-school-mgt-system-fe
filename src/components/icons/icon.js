@@ -1,10 +1,8 @@
 export {
-  // Navigation
   Menu,
   Home,
   LayoutDashboard,
 
-  // School
   GraduationCap,
   School,
   Library,
@@ -12,38 +10,32 @@ export {
   BookMarked,
   NotebookPen,
 
-  // Users
   Users,
   UserPlus,
   UserCheck,
   UserCog,
   UserCircle,
 
-  // Academics
   ClipboardList,
   ClipboardCheck,
   Calendar,
   CalendarDays,
 
-  // Finance
   Wallet,
   CreditCard,
   Receipt,
 
-  // Files
   File,
   FileText,
   Files,
   Folder,
   FolderOpen,
 
-  // Charts
   ChartColumn,
   BarChart3,
   PieChart,
   LineChart,
 
-  // Actions
   Plus,
   Minus,
   Edit,
@@ -55,7 +47,6 @@ export {
   Filter,
   MoreHorizontal,
 
-  // UI
   Bell,
   Settings,
   ChevronDown,
@@ -65,7 +56,6 @@ export {
   ArrowLeft,
   ArrowRight,
 
-  // Status
   Check,
   X,
   Circle,
@@ -76,11 +66,9 @@ export {
   TriangleAlert,
   LoaderCircle,
 
-  // Contact
   Mail,
   Phone,
 
-  // Misc
   Building2,
   LogOut,
   Server,

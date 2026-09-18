@@ -49,6 +49,10 @@ function normalizeUpdateSchoolSubscriptionResponse(raw) {
   return raw ?? null;
 }
 
+function normalizeRenewSchoolSubscriptionResponse(raw) {
+  return raw ?? null;
+}
+
 export const subscriptionsService = {
   getSubscriptionPlans: async () => {
     const response = await apiClient.get(`${BASE_URL}/plans`);
@@ -102,6 +106,18 @@ export const subscriptionsService = {
       payload,
     );
     return normalizeUpdateSchoolSubscriptionResponse(response.data);
+  },
+
+  // Unconfirmed frontend assumption: no backend contract exists yet for
+  // renewal. This path/method follow this file's existing REST conventions
+  // (nested under /schools/:schoolId, verb suffix for a non-CRUD lifecycle
+  // action) and should be reconciled with the backend once it is defined.
+  renewSchoolSubscription: async (schoolId, subscriptionId, payload) => {
+    const response = await apiClient.patch(
+      `${BASE_URL}/schools/${schoolId}/${subscriptionId}/renew`,
+      payload,
+    );
+    return normalizeRenewSchoolSubscriptionResponse(response.data);
   },
 };
 
